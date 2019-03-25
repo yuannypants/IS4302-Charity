@@ -1,6 +1,8 @@
 import axios from 'axios'
+import { Card } from 'primereact/card'
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import { InputText } from 'primereact/inputtext';
 
 export default class Login extends Component {
   constructor(props) {
@@ -27,38 +29,21 @@ export default class Login extends Component {
           <title>Login</title>
           <meta name="description" content="Login" />
         </Helmet>
-        <form id="login_form" action="/api/public/login" role="form" method="post">
-          <div id="signin">
-            <header className="text-center mb-5">
-              <h2 className="h4 mb-0">Login to Your Account</h2>
-            </header>
-            <div className="mb-3">
-              <div className=" input-group form">
-                <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                    <span className="fa fa-user form-icon-inner"></span>
-                  </span>
-                </div>
-                <input className="form-control " name="username" id="username" placeholder="Username" type="text" />
-              </div>
-            </div>
-            <div className=" mb-3">
-              <div className=" input-group form">
-                <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                    <span className="fa fa-lock form-icon-inner"></span>
-                  </span>
-                </div>
-                <input className="form-control " name="password" id="password" placeholder="Password" type="password" />
-              </div>
-            </div>
-            <div className="mb-3">
-              <button type="submit" className="btn btn-block btn-primary">Login
-                to your account
-              </button>
-            </div>
+        <Card>
+          <h1>Log In</h1>
+          <div className="p-inputgroup">
+            <span className="p-inputgroup-addon">
+              <i className="pi pi-user"> </i>
+            </span>
+            <InputText placeholder="Username" />
           </div>
-        </form>
+          <div className="p-inputgroup">
+            <span className="p-inputgroup-addon">
+              <i className="pi pi-lock"> </i>
+            </span>
+            <InputText placeholder="Password" />
+          </div>
+        </Card>
       </div>
     );
   }

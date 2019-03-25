@@ -251,9 +251,46 @@ export function viewDonationDrives (req, res) {
   })
 }
 
-export function viewExpenditureRecords (req, res) {
-  let url = 'http://localhost:3000/bc/api/ExpenditureRecord';
-  let firebaseRef = 'ExpenditureRecord';
+export function viewFundTransferRequests (req, res) {
+  let url = 'http://localhost:3000/bc/api/FundTransferRequest';
+  let firebaseRef = 'FundTransferRequest';
+  if (req.params.id) {
+    url += req.params.id;
+    firebaseRef += '/' + req.params.id;
+  }
+
+  // Do something with blockchain
+  httpGET(url)
+  .then(responseFromComposer => {
+    // Do something with Firebase
+    // db.ref(firebaseRef).set({
+    //   key1: "value1",
+    //   key2: "value2",
+    // }, firebaseError => {
+    //   if (firebaseError)
+    //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //       errorSource: "firebase",
+    //       firebaseError,
+    //     });
+    //   else
+    res.json({
+      responseFromComposer,
+      // key1: "value1",
+      // key2: "value2",
+    });
+    // })
+  })
+  .catch(err => {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errorSource: "blockchain",
+      err,
+    })
+  })
+}
+
+export function viewExpenditureReports (req, res) {
+  let url = 'http://localhost:3000/bc/api/ExpenditureReport';
+  let firebaseRef = 'ExpenditureReport';
   if (req.params.id) {
     url += req.params.id;
     firebaseRef += '/' + req.params.id;

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { Route, Switch, Router } from 'react-router-dom';
 
 // Import components
 import AuthenticatedRoute from './AuthenticatedRoute';
@@ -12,48 +11,58 @@ import Register from '../components/Register';
 import HomePage from '../components/HomePage';
 
 // View Participants
-import ViewDonors from '../components/ViewDonors';
-import ViewCharitableOrganisations from '../components/ViewCharitableOrganisations';
-import ViewBeneficiaries from '../components/ViewBeneficiaries';
-import ViewSuppliers from '../components/ViewSuppliers';
-import ViewValidators from '../components/ViewValidators';
+import Donors from '../components/participants/Donor';
+import CharitableOrganisations from '../components/participants/CharitableOrganisation';
+import Beneficiaries from '../components/participants/Beneficiary';
+import Supplier from '../components/participants/Supplier';
+import Validators from '../components/participants/Validator';
 
 // View Assets
-import ViewWallets from '../components/ViewWallets';
-import ViewDonationDrives from '../components/ViewDonationDrives';
-import ViewExpenditureRecords from '../components/ViewExpenditureRecords';
-import ViewReceipts from '../components/ViewReceipts';
+import Wallets from '../components/assets/Wallet';
+import DonationDrives from '../components/assets/DonationDrive';
+import FundTransferRequest from '../components/assets/FundTransferRequest';
+import ExpenditureReport from '../components/assets/ExpenditureReport';
+import Receipt from '../components/assets/Receipt';
 
 // Transactions
-import CreateDonationDrive from '../components/CreateDonationDrive';
-import MakeDonation from '../components/MakeDonation';
-import TransferFunds from '../components/TransferFunds';
+import CreateDonationDrive from '../components/transactions/CreateDonationDrive';
+import CreateFundTransferRequest from '../components/transactions/CreateFundTransferRequest';
+import MakeDonation from '../components/transactions/MakeDonation';
+import TransferFund from '../components/transactions/TransferFund';
+import ValidateFundTransferRequest from '../components/transactions/ValidateFundTransferRequest';
+import WalletTransaction from '../components/transactions/WalletTransaction';
 
-const history = createHistory();
+const history = require("history").createBrowserHistory();
+
 const RootClientRouter = () => (
   <Router history={history}>
     <Switch>
+      <Route path="/" exact component={HomePage}/>
       // View Participants
-      <AuthenticatedRoute exact path="/viewDonors" component={ViewDonors}/>
-      <AuthenticatedRoute exact path="/viewCharitableOrganisations" component={ViewCharitableOrganisations}/>
-      <AuthenticatedRoute exact path="/viewBeneficiaries" component={ViewBeneficiaries}/>
-      <AuthenticatedRoute exact path="/viewSuppliers" component={ViewSuppliers}/>
-      <AuthenticatedRoute exact path="/viewValidators" component={ViewValidators}/>
+      <AuthenticatedRoute exact path="/Donor" component={Donors}/>
+      <AuthenticatedRoute exact path="/CharitableOrganisation" component={CharitableOrganisations}/>
+      <AuthenticatedRoute exact path="/Beneficiary" component={Beneficiaries}/>
+      <AuthenticatedRoute exact path="/Supplier" component={Supplier}/>
+      <AuthenticatedRoute exact path="/Validator" component={Validators}/>
 
-      // View Assets
-      <AuthenticatedRoute exact path="/viewWallets" component={ViewWallets}/>
-      <AuthenticatedRoute exact path="/viewDonationDrives" component={ViewDonationDrives}/>
-      <AuthenticatedRoute exact path="/viewExpenditureRecords" component={ViewExpenditureRecords}/>
-      <AuthenticatedRoute exact path="/viewReceipts" component={ViewReceipts}/>
+      //  Assets
+      <AuthenticatedRoute exact path="/Wallet" component={Wallets}/>
+      <AuthenticatedRoute exact path="/DonationDrive" component={DonationDrives}/>
+      <AuthenticatedRoute exact path="/FundTransferRequest" component={FundTransferRequest}/>
+      <AuthenticatedRoute exact path="/ExpenditureReport" component={ExpenditureReport}/>
+      <AuthenticatedRoute exact path="/Receipt" component={Receipt}/>
 
       // Transactions
-      <AuthenticatedRoute exact path="/createDonationDrive" component={CreateDonationDrive}/>
-      <AuthenticatedRoute exact path="/makeDonation" component={MakeDonation}/>
-      <AuthenticatedRoute exact path="/transferFunds" component={TransferFunds}/>
+      <AuthenticatedRoute exact path="/CreateDonationDrive" component={CreateDonationDrive}/>
+      <AuthenticatedRoute exact path="/CreateFundTransferRequest" component={CreateFundTransferRequest}/>
+      <AuthenticatedRoute exact path="/MakeDonation" component={MakeDonation}/>
+      <AuthenticatedRoute exact path="/TransferFund" component={TransferFund}/>
+      <AuthenticatedRoute exact path="/ValidateFundTransferRequest" component={ValidateFundTransferRequest}/>
+      <AuthenticatedRoute exact path="/WalletTransaction" component={WalletTransaction}/>
 
       // Public
-      <Route exact path="/login" component={Login}/>
-      <Route exact path="/register" component={Register}/>
+      <Route exact path="/Login" component={Login}/>
+      <Route exact path="/Register" component={Register}/>
       <Route path="" component={HomePage}/>
       <Route component={NotFound}/>
     </Switch>

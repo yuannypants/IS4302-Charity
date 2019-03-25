@@ -8,7 +8,7 @@ const AuthenticatedRoute = ({component: Component,  ...rest}) => (
     {...rest}
     render = {
       props => (
-        storage.getItem("user")== null ? ( // <------- CHANGE!!!
+        storage.getItem("user")!= null ? ( // <------- CHANGE!!!
           <Component {...props}/>
         ) : (
           <Redirect to={{

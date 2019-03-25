@@ -41,10 +41,15 @@ router.route('/DonationDrive/:id').get((req, res) => {
 router.route('/DonationDrive').get((req, res) => {
   ReadController.viewDonationDrives(req, res)});
 
-router.route('/ExpenditureRecord/:id').get((req, res) => {
-  ReadController.viewExpenditureRecords(req, res)});
-router.route('/ExpenditureRecord').get((req, res) => {
-  ReadController.viewExpenditureRecords(req, res)});
+router.route('/FundTransferRequest/:id').get((req, res) => {
+  ReadController.viewFundTransferRequests(req, res)});
+router.route('/FundTransferRequest').get((req, res) => {
+  ReadController.viewFundTransferRequests(req, res)});
+
+router.route('/ExpenditureReport/:id').get((req, res) => {
+  ReadController.viewExpenditureReports(req, res)});
+router.route('/ExpenditureReport').get((req, res) => {
+  ReadController.viewExpenditureReports(req, res)});
 
 router.route('/Receipt/:id').get((req, res) => {
   ReadController.viewReceipts(req, res)});
@@ -56,10 +61,19 @@ router.route('/Receipt').get((req, res) => {
 router.route('/CreateDonationDrive').post((req, res) => {
   TransactionController.createDonationDrive(req, res)});
 
+router.route('/CreateFundTransferRequest').post((req, res) => {
+  TransactionController.createFundTransferRequest(req, res)});
+
 router.route('/MakeDonation').post((req, res) => {
   TransactionController.makeDonation(req, res)});
 
 router.route('/TransferFund').post((req, res) => {
   TransactionController.transferFunds(req, res)});
+
+router.route('/ValidateFundTransferRequest').post((req, res) => {
+  TransactionController.validateFundTransferRequest(req, res)});
+
+router.route('/WalletTransaction').post((req, res) => {
+  TransactionController.walletTransaction(req, res)});
 
 export default router;
