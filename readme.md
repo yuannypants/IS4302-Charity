@@ -15,6 +15,7 @@
     ``` 
 4. Install dependencies
     ```
+    cd is4302-charity
     npm install
     ```
 5. Download a copy of Hyperledger Fabric
