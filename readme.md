@@ -3,6 +3,7 @@
 1. Clone this repository to any desired folder in your computer using the following command in cmd (Windows) or Terminal (MacOS):
     ```
     git clone https://github.com/yuannypants/IS4302-Charity.git
+    cd is4302-charity
     ```
 2. Make sure your system meets the prerequisites in this [link](https://hyperledger.github.io/composer/v0.19/installing/installing-prereqs.html#macos).
     * Note that instead of using the LTS (currently v10.15.3) version of Node, __use v8.9.4 instead__ or you will encounter errors when installing the CLI tools in step 2.
@@ -15,7 +16,6 @@
     ``` 
 4. Install dependencies
     ```
-    cd is4302-charity
     npm install
     ```
 5. Download a copy of Hyperledger Fabric
