@@ -1,0 +1,6 @@
+/node_modules
+/fabric
+*.bna
+*.card
+
+package-lock.json

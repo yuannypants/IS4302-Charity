@@ -1,0 +1,135 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+/**
+ * Defines a data model for a charity network
+ */
+namespace com.is4302.charity
+
+participant Donor identified by id {
+  o String id
+  --> Wallet wallet
+}
+
+participant CharitableOrganisation identified by uen {
+  o String uen
+  --> Beneficiary[] beneficiaries 
+  --> Supplier[] suppliers optional
+}
+
+participant Supplier identified by uen {
+  o String uen
+  --> Wallet wallet
+}
+
+participant Beneficiary identified by id {
+  o String id
+  --> Wallet wallet
+}
+
+participant Validator identified by id {
+  o String id
+  --> ExpenditureReport[] expenditureReports optional
+  --> FundTransferRequest[] fundTransferRequests optional
+}
+
+asset Wallet identified by id {
+  o String id
+  o Double balance
+}
+
+asset DonationDrive identified by id {
+  o String id
+  --> Wallet wallet
+  --> CharitableOrganisation charitableOrganisation
+  --> ExpenditureReport expenditureReport
+  --> Beneficiary[] beneficiaries 
+  --> Supplier[] suppliers optional
+}
+
+asset FundTransferRequest identified by id {
+  o String id
+  o String purpose
+  o Double amount
+  o ApprovalStatus approvalStatus
+  --> DonationDrive donationDrive
+  --> Validator[] validators optional
+  --> Beneficiary[] beneficiaries optional
+  --> Supplier[] suppliers optional
+}
+
+asset Receipt identified by id {
+  o String id
+  o String filePath
+}
+
+asset ExpenditureReport identified by id {
+  o String id
+  --> FundTransferRequest[] fundTransferRequests
+  --> Receipt[] receipts
+}
+
+enum ApprovalStatus {
+  o NOT_APPROVED
+  o APPROVED
+}
+
+enum TransferType {
+  o TOP_UP
+  o WITHDRAW
+}
+
+transaction RegisterDonor {
+  o String walletId
+  o String donorId
+}
+
+transaction WalletTransaction {
+  o Double amount
+  o TransferType transferType
+}
+
+transaction CreateDonationDrive {
+  o String walletId
+  o String donationDriveId
+  o String expenditureReportId
+  --> Beneficiary[] beneficiaries 
+  --> Supplier[] suppliers optional
+}
+
+transaction MakeDonation {
+  o Double amount
+  --> DonationDrive donationDrive
+}
+
+transaction CreateFundTransferRequest {
+  o String fundTransferRequestId
+  o String purpose
+  o Double amount
+  o Integer numValidators
+  --> DonationDrive donationDrive
+  --> Beneficiary[] beneficiaries optional
+  --> Supplier[] suppliers optional
+}
+
+transaction ValidateFundTransferRequest {
+  --> FundTransferRequest fundTransferRequest
+}
+
+transaction TransferFund {
+  o Double amount
+  --> DonationDrive donationDrive
+  --> Beneficiary[] beneficiaries optional
+  --> Supplier[] suppliers optional
+}
