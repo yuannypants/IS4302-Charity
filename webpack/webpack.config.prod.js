@@ -1,15 +1,10 @@
-'use strict';
-const webpack = require('webpack');
-const path = require('path');
-const env = process.env.NODE_ENV;
-/*
- * so process.cwd() is used instead to determine the correct base directory
- * Read more: https://nodejs.org/api/process.html#process_process_cwd
- */
-const CURRENT_WORKING_DIR = process.cwd();
+import webpack from 'webpack';
+import path from 'path';
 
-var config = {
-  context: path.resolve(CURRENT_WORKING_DIR, 'client'),
+const env = process.env.NODE_ENV;
+
+const config = {
+  context: path.resolve(process.cwd(), 'client'),
   entry: {
     app: [
       './main.js'
@@ -17,7 +12,7 @@ var config = {
   },
   mode: 'production',
   output: {
-    path: path.resolve(CURRENT_WORKING_DIR, 'dist'), //  destination
+    path: path.resolve(process.cwd(), 'dist'), //  destination
     filename: 'clientBundle.js',
     publicPath: '/dist/',
   },
@@ -40,4 +35,4 @@ var config = {
   devtool: "hidden-source-map"
 };
 
-module.exports = config;
+export default config;

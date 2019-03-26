@@ -1,7 +1,7 @@
-import { Checkbox } from 'primereact/checkbox'
-import { InputText } from 'primereact/inputtext'
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import { Button } from 'primereact/button'
+import 'primeicons/primeicons.css';
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -12,14 +12,27 @@ export default class HomePage extends Component {
   }
 
   render() {
+    let background = require('../assets/img/background.jpg');
     return (
-      <div>
+      <div className="p-grid p-fluid">
         <Helmet>
           <title>Home</title>
           <meta name="description" content="Home - IS4302 Charity" />
         </Helmet>
-        <h1>Home</h1>
-
+        <img src={background} style={{height: '100%', width: '100%', resizeMode: 'cover', opacity: '0.5', left: 0, top: 0, position: 'absolute', zIndex: -1}} />
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1 style={{textAlign: 'center'}}>Welcome to IS4302 Charity with Blockchain</h1>
+            <div className="p-grid">
+              <div className="p-col-2 p-offset-4">
+                <Button label="Click here to Register" icon="pi pi-user" onClick={() => document.location="/Register"}/>
+              </div>
+              <div className="p-col-2">
+                <Button label="Click here to Login" icon="pi pi-user-plus" onClick={() => document.location="/Login"}/>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,90 +1,94 @@
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Password } from 'primereact/password'
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
 import { httpPOST } from '../utils/httpUtils';
-
-const localStorage = window.localStorage;
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
 
-    this.onRegisterSubmit = this.onRegisterSubmit.bind(this);
+    this.state = {
+      nric: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      error: null
+    }
+
+    this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
-  onRegisterSubmit(event) {
+  onClickSubmit() {
     let data = {
-      nric: event.target.nric.value,
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      password: event.target.password.value
+      nric: this.state.nric,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      password: this.state.password
     }
-    event.preventDefault();
+
     httpPOST('http://localhost:3000/api/public/register', data)
     .then(response => {
+      alert('Your account has been successfully registered!');
       window.location.href = '/login'; // Redirects to main page
     })
     .catch(error => {
-
+      let errorMsg = 'An error was encountered. Source: ' + error.response.data.errorSource
+      this.setState({error: errorMsg})
+      console.log(JSON.stringify(error.response.data,null,2));
     });
   }
 
   render() {
     return (
-      <div>
+      <div className="p-grid p-fluid p-justify-center">
         <Helmet>
           <title>Register</title>
           <meta name="description" content="Register" />
         </Helmet>
-        <div>
-          <form id="register_form" onSubmit={event => this.onRegisterSubmit(event)} method="post">
-            <div id="signin">
-              <header className="text-center mb-5">
-                <h2 className="h4 mb-0">Register as a New User</h2>
-              </header>
-              <div className="mb-3">
-                <div className=" input-group form">
-                  <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                     <span className="fa fa-user form-icon-inner"></span>
-                  </span>
-                  </div>
-                  <input className="form-control " name="nric" id="nric" placeholder="NRIC" type="text" />
-                </div>
+        <div className="p-col-6">
+          <div className="card card-w-title">
+            <h1 style={{textAlign: 'center'}}>Register</h1>
+            <div className="p-grid p-justify-center">
+              <div className="p-col-10" style={{marginTop:'15px'}}>
+                <span className="p-float-label">
+                  <InputText id="nricInput" value={this.state.nric} onChange={e => this.setState({nric: e.target.value})} />
+                  <label htmlFor="nricInput">NRIC</label>
+                </span>
               </div>
-              <div className="mb-3">
-                <div className=" input-group form">
-                  <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                     <span className="fa fa-user form-icon-inner"></span>
-                  </span>
-                  </div>
-                  <input className="form-control " name="firstName" id="firstName" placeholder="First Name" type="text" />
-                </div>
+              <div className="p-col-10" style={{marginTop:'15px'}}>
+                <span className="p-float-label">
+                  <InputText id="firstNameInput" value={this.state.firstName} onChange={e => this.setState({firstName: e.target.value})} />
+                  <label htmlFor="firstNameInput">First Name</label>
+                </span>
               </div>
-              <div className="mb-3">
-                <div className=" input-group form">
-                  <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                     <span className="fa fa-user form-icon-inner"></span>
-                  </span>
-                  </div>
-                  <input className="form-control " name="lastName" id="lastName" placeholder="Last Name" type="text" />
-                </div>
+              <div className="p-col-10" style={{marginTop:'15px'}}>
+                <span className="p-float-label">
+                  <InputText id="lastNameInput" value={this.state.lastName} onChange={e => this.setState({lastName: e.target.value})} />
+                  <label htmlFor="lastNameInput">Last Name</label>
+                </span>
               </div>
-              <div className="mb-3">
-                <div className=" input-group form">
-                  <div className="input-group-prepend ">
-                  <span className="input-group-text form-icon">
-                     <span className="fa fa-lock form-icon-inner"></span>
-                  </span>
-                  </div>
-                  <input className="form-control " name="password" id="password" placeholder="Password" type="password" />
-                </div>
+              <div className="p-col-10" style={{marginTop:'15px'}}>
+                <span className="p-float-label">
+                  <Password id="passwordInput" value={this.state.password} onChange={e => this.setState({password: e.target.value})}
+                    feedback={false}/>
+                  <label htmlFor="passwordInput">Password</label>
+                </span>
               </div>
-              <br/>
-                <button type="submit" className="btn btn-block btn-primary">Register</button>
+              <div className="p-col-10">
+                <small>Already have an account? Log in <a href="/Login">here</a>.</small>
+              </div>
+              {
+                this.state.error && <div className="p-col-10">
+                  <small style={{color:'red'}}>{this.state.error}</small>
+                </div>
+              }
+              <div className="p-col-10">
+                <Button label="Register" icon="pi pi-user-plus" onClick={this.onClickSubmit}/>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );

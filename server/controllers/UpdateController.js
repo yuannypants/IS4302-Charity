@@ -28,7 +28,7 @@ export function someUpdateFunction (req, res) {
     //     });
     //   else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           key1: "value1",
         });
     // })

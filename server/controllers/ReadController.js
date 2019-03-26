@@ -14,7 +14,7 @@ export function viewDonors (req, res) {
 
   // Do something with blockchain
   httpGET(url)
-  .then((responseFromComposer) => {
+  .then(responseFromComposer => {
     res.json({
       data: responseFromComposer.data,
       // key1: "value1",
@@ -24,7 +24,7 @@ export function viewDonors (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -52,7 +52,7 @@ export function viewCharitableOrganisations (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -61,7 +61,7 @@ export function viewCharitableOrganisations (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -89,7 +89,7 @@ export function viewBeneficiaries (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -98,7 +98,7 @@ export function viewBeneficiaries (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -126,7 +126,7 @@ export function viewSuppliers (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -135,7 +135,7 @@ export function viewSuppliers (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -163,7 +163,7 @@ export function viewValidators (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -172,7 +172,7 @@ export function viewValidators (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -200,7 +200,7 @@ export function viewWallets (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -209,7 +209,7 @@ export function viewWallets (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -237,7 +237,7 @@ export function viewDonationDrives (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -246,7 +246,7 @@ export function viewDonationDrives (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -274,7 +274,7 @@ export function viewFundTransferRequests (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -283,7 +283,7 @@ export function viewFundTransferRequests (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -311,7 +311,7 @@ export function viewExpenditureReports (req, res) {
     //     });
     //   else
     res.json({
-      responseFromComposer,
+      data: responseFromComposer.data,
       // key1: "value1",
       // key2: "value2",
     });
@@ -320,7 +320,7 @@ export function viewExpenditureReports (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
@@ -348,7 +348,7 @@ export function viewReceipts (req, res) {
     //     });
     //   else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           // key1: "value1",
           // key2: "value2",
         });
@@ -357,7 +357,7 @@ export function viewReceipts (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }

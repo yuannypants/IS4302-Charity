@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { httpPOST } from '../utils/httpUtils'
+import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
 
 const db = firebase.database();
@@ -34,7 +34,7 @@ export function register(req, res) {
         })
       else
         res.json({
-          firebaseError,
+          errorSource: null,
         })
     })
   })
@@ -47,10 +47,54 @@ export function register(req, res) {
 }
 
 export function login(req, res) {
-  res.json({
-    object: {
-      key: "pair",
-      description: "This is the JSON object that server returns to you when you call the API url localhost:3000/api/public",
-    }
-  });
+  // Chain data:    username
+  // Offchain data: password
+  let { username, password } = req.body;
+  let participantsList = [
+    'Donor',
+    'CharitableOrganisation',
+    'Beneficiary',
+    'Supplier',
+    'Validator'
+  ]
+  let participantType = participantsList[0];
+  console.log('> Log in detected\n' + '\nUsername: ' + username + '\nPassword: ' + password);
+
+  // for (let participant of participantsList) {
+  //   let url = 'http://localhost:3000/bc/api/' + participant + '/' + username;
+  //   httpGET(url)
+  //   .then(() => {participantType = participant;})
+  // }
+
+  if (participantType) {
+    console.log('Participant type: ' + participantType)
+    let firebaseRef = participantType + '/' + username;
+    db.ref(firebaseRef).once("value", snapshot => {
+      let userInfo = snapshot.val();
+      if (userInfo && userInfo.password === password) {
+        res.json({
+          participant: participantType,
+          username: username,
+          nickname: userInfo.firstName + ' ' + userInfo.lastName,
+        })
+      } else {
+        res.status(HttpStatus.FORBIDDEN).json({
+          errorSource: "firebase",
+          errorType: "wronguserpw",
+        })
+      }
+      snapshot.val() && console.log(snapshot.val());
+    }, firebaseError => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errorSource: "firebase",
+        firebaseError,
+      })
+    })
+  } else {
+    console.log('Participant type: Not detected')
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errorSource: "blockchain",
+      //blockchainError,
+    })
+  }
 }

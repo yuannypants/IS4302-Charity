@@ -44,7 +44,7 @@ export function createDonationDrive (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }
@@ -92,7 +92,7 @@ export function createFundTransferRequest (req, res) {
    .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }
@@ -122,7 +122,7 @@ export function makeDonation (req, res) {
         });
       else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           key1: "value1",
           key2: "value2",
         });
@@ -131,7 +131,7 @@ export function makeDonation (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }
@@ -167,7 +167,7 @@ export function transferFunds (req, res) {
         });
       else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           key1: "value1",
           key2: "value2",
         });
@@ -176,7 +176,7 @@ export function transferFunds (req, res) {
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }
@@ -205,7 +205,7 @@ export function validateFundTransferRequest (req, res) {
         });
       else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           key1: "value1",
           key2: "value2",
         });
@@ -214,7 +214,7 @@ export function validateFundTransferRequest (req, res) {
    .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }
@@ -244,7 +244,7 @@ export function walletTransaction (req, res) {
         });
       else
         res.json({
-          responseFromComposer,
+          data: responseFromComposer.data,
           key1: "value1",
           key2: "value2",
         });
@@ -253,7 +253,7 @@ export function walletTransaction (req, res) {
    .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err
     })
   })
 }

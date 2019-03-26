@@ -448,6 +448,9 @@ a {
 
     .layout-footer {
         @include transition(margin-left $transitionDuration);
+        position: absolute;
+        bottom: 0;
+        width: 100%;
         background-color: $footerBgColor;
         padding: 1em 2em;
 

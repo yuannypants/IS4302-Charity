@@ -14,6 +14,8 @@ import { InlineProfile } from '../components/common/InlineProfile';
 import { Menu } from '../components/common/Menu';
 import RootClientRouter from '../routers';
 
+const localStorage = window.localStorage;
+
 class RootContainer extends Component {
   constructor(props) {
     super(props);
@@ -107,6 +109,15 @@ class RootContainer extends Component {
             command: () => { window.location = "WalletTransaction"} }
         ]
       },
+      {
+        label: 'Log out', icon: 'pi pi-fw pi-briefcase',
+          command: () => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("participant");
+            localStorage.removeItem("nickname");
+            // window.location = "/"
+          }
+      }
     ]
   }
 
@@ -132,7 +143,7 @@ class RootContainer extends Component {
   }
 
   render() {
-    let logo = require('../assets/images/logo.png');
+    let logo = require('../assets/img/logo.png');
     let wrapperClass = classNames('layout-wrapper', 'layout-static', {
       'layout-static-sidebar-inactive': !this.state.menuActive,
       'layout-mobile-sidebar-active': this.state.mobileMenuActive

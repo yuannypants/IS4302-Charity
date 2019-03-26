@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {InputText} from 'primereact/inputtext';
 import PropTypes from 'prop-types';
+
+const localStorage = window.localStorage;
 
 export class Topbar extends Component {
 
@@ -15,9 +16,13 @@ export class Topbar extends Component {
   render() {
     return (
       <div className="layout-topbar clearfix">
-        <button className="p-link layout-menu-button" onClick={this.props.onToggleMenu}>
-          <span className="pi pi-bars"/>
-        </button>
+        {
+          localStorage.getItem("username") && (
+            <button className="p-link layout-menu-button" onClick={this.props.onToggleMenu}>
+              <span className="pi pi-bars"/>
+            </button>
+          )
+        }
         <div className="layout-topbar-icons">
           <button className="p-link">
             <span className="layout-topbar-item-text">Events</span>
