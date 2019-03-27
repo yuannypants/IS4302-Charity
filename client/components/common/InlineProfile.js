@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-import { httpGET } from '../../utils/httpUtils'
+import { httpGET } from '../../utils/httpUtils';
 
 const localStorage = window.localStorage;
 
@@ -9,7 +8,7 @@ export class InlineProfile extends Component {
     super(props);
     this.state = {
       expanded: false,
-      walletBalance: 100
+      walletBalance: 0
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -20,14 +19,14 @@ export class InlineProfile extends Component {
   }
 
   viewDonor() {
-    window.location.href = '/Donor'
+    window.location.href = '/Wallet'
   }
 
   componentWillMount() {
-    let url = 'http://localhost:3000/api/private/Wallet?id=' + localStorage.username;
+    let url = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
     httpGET(url)
     .then(response => {
-      this.setState({walletBalance: response.data.data[0].balance});
+      this.setState({walletBalance: response.data.balance});
     })
   }
 
@@ -46,7 +45,7 @@ export class InlineProfile extends Component {
           
           {/*<i className="pi pi-fw pi-cog"/>*/}
         </button><br/>
-        <span className="balance"  >Balance: ${this.state.walletBalance}</span>
+        <span className="balance"  >Wallet Balance: ${this.state.walletBalance.toFixed(2)}</span>
         {/*<ul className={classNames({'profile-expanded': this.state.expanded})}>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-user"/><span>Account</span></button></li>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-inbox"/><span>Notifications</span></button></li>*/}

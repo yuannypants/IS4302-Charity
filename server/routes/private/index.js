@@ -4,57 +4,11 @@ import * as TransactionController from '../../controllers/TransactionController'
 
 let router = express.Router();
 
-// Participants-related
-router.route('/Donor/:id').get((req, res) => {
-  ReadController.viewDonors(req, res)});
-router.route('/Donor').get((req, res) => {
-  ReadController.viewDonors(req, res)});
-
-router.route('/CharitableOrganisation/:id').get((req, res) => {
-  ReadController.viewCharitableOrganisations(req, res)});
-router.route('/CharitableOrganisation').get((req, res) => {
-  ReadController.viewCharitableOrganisations(req, res)});
-
-router.route('/Beneficiary/:id').get((req, res) => {
-  ReadController.viewBeneficiaries(req, res)});
-router.route('/Beneficiary').get((req, res) => {
-  ReadController.viewBeneficiaries(req, res)});
-
-router.route('/Supplier/:id').get((req, res) => {
-  ReadController.viewSuppliers(req, res)});
-router.route('/Supplier').get((req, res) => {
-  ReadController.viewSuppliers(req, res)});
-
-router.route('/Validator/:id').get((req, res) => {
-  ReadController.viewValidators(req, res)});
-router.route('/Validator').get((req, res) => {
-  ReadController.viewValidators(req, res)});
-
-// Assets-related
-router.route('/Wallet/:id').get((req, res) => {
-  ReadController.viewWallets(req, res)});
-router.route('/Wallet').get((req, res) => {
-  ReadController.viewWallets(req, res)});
-
-router.route('/DonationDrive/:id').get((req, res) => {
-  ReadController.viewDonationDrives(req, res)});
-router.route('/DonationDrive').get((req, res) => {
-  ReadController.viewDonationDrives(req, res)});
-
-router.route('/FundTransferRequest/:id').get((req, res) => {
-  ReadController.viewFundTransferRequests(req, res)});
-router.route('/FundTransferRequest').get((req, res) => {
-  ReadController.viewFundTransferRequests(req, res)});
-
-router.route('/ExpenditureReport/:id').get((req, res) => {
-  ReadController.viewExpenditureReports(req, res)});
-router.route('/ExpenditureReport').get((req, res) => {
-  ReadController.viewExpenditureReports(req, res)});
-
-router.route('/Receipt/:id').get((req, res) => {
-  ReadController.viewReceipts(req, res)});
-router.route('/Receipt').get((req, res) => {
-  ReadController.viewReceipts(req, res)});
+// Viewing of participants and assets
+router.route('/:type(Donor|CharitableOrganisation|Beneficiary|Supplier|Validator|Wallet|DonationDrive|FundTransferRequest|ExpenditureReport|Receipt)/:id').get((req, res) => {
+  ReadController.viewParticipantOrAsset(req, res)});
+router.route('/:type(Donor|CharitableOrganisation|Beneficiary|Supplier|Validator|Wallet|DonationDrive|FundTransferRequest|ExpenditureReport|Receipt)').get((req, res) => {
+  ReadController.viewParticipantOrAsset(req, res)});
 
 
 // Transactions-related
