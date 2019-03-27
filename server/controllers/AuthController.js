@@ -67,10 +67,10 @@ export function login(req, res) {
   // }
 
   if (participantType) {
-    console.log('Participant type: ' + participantType)
     let firebaseRef = participantType + '/' + username;
     db.ref(firebaseRef).once("value", snapshot => {
       let userInfo = snapshot.val();
+      console.log(userInfo);
       if (userInfo && userInfo.password === password) {
         res.json({
           participant: participantType,

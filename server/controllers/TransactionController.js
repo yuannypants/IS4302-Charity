@@ -1,44 +1,37 @@
 import firebase from 'firebase';
-import { httpPOST } from '../utils/httpUtils'
+import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
 
 
 const db = firebase.database();
 
 export function createDonationDrive (req, res) {
-  let { value1, value2 } = req.body;
-  let url = 'http://localhost:3000/bc/api/CreateDonationDrive';
-  let firebaseRef = 'somePath/' + 'someId';
-  let data = {
-    "$class": "com.is4302.charity.CreateDonationDrive",
-    "walletId": "string",
-    "beneficiaries": [
-      {}
-    ],
-    "suppliers": [
-      {}
-    ],
-  };
+  let url = 'http://localhost:3000/bc/api/Donor';
+  let url2 = 'http://localhost:3000/bc/api/CharitableOrganisation';
 
-  // Do something with blockchain
-  httpPOST(url, data)
-  .then(responseFromComposer => {
-    // Do something with Firebase
-    db.ref(firebaseRef).set({
-      key1: "value1",
-      key2: "value2",
-    }, firebaseError => {
-      if (firebaseError)
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-          errorSource: "firebase",
-          firebaseError,
-        });
-      else
+  if (req.params.id) {
+    url += '/' + req.params.id;
+  }
+
+  console.log("URL IS " + url);
+
+  httpGET(url)
+  .then(donorResponse => {
+    httpGET(url2).then(COResponse => {
+      db.ref('Donor/S1234567A').once("value", snapshot => {
+        let userInfo = snapshot.val();
+
+        // compare donorResponse (from blockchain) and userInfo (from firebase)
+
+        // after comparison, push to processedData and return in res.json()
+        console.log(donorResponse);
         res.json({
-          responseFromComposer,
-          key1: "value1",
-          key2: "value2",
-        });
+          processedData: "processedData",
+          donorData: donorResponse.data,
+          COData: COResponse.data,
+          userInfo: userInfo
+        })
+      })
     })
   })
   .catch(err => {
@@ -47,6 +40,34 @@ export function createDonationDrive (req, res) {
       // err
     })
   })
+
+  // Do something with blockchain
+  // httpPOST(url, data)
+  // .then(responseFromComposer => {
+  //   // Do something with Firebase
+  //   db.ref(firebaseRef).set({
+  //     key1: "value1",
+  //     key2: "value2",
+  //   }, firebaseError => {
+  //     if (firebaseError)
+  //       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+  //         errorSource: "firebase",
+  //         firebaseError,
+  //       });
+  //     else
+  //       res.json({
+  //         responseFromComposer,
+  //         key1: "value1",
+  //         key2: "value2",
+  //       });
+  //   })
+  // })
+  // .catch(err => {
+  //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+  //     errorSource: "blockchain",
+  //     // err
+  //   })
+  // })
 }
 
 export function createFundTransferRequest (req, res) {
