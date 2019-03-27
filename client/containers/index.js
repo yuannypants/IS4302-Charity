@@ -78,21 +78,24 @@ class RootContainer extends Component {
           command: () => { window.location = "Validator"} },
       ]
     });
-    localStorage.getItem("participant") === "Donor" && this.menu.push({
+
+    let assetMenu = [];
+
+    if (localStorage.getItem("participant") === "Donor") {
+      assetMenu.push({label: 'Wallets', icon: 'pi pi-fw pi-bars',command: () => { window.location = "Wallet"}})
+      assetMenu.push({label: 'Donation Drives', icon: 'pi pi-fw pi-bars',command: () => { window.location = "DonationDrive"}})
+      assetMenu.push({label: 'Fund Transfer Requests', icon: 'pi pi-fw pi-bars',command: () => { window.location = "FundTransferRequest"} })
+    }
+
+    localStorage.getItem("participant") === "Donor" && assetMenu.push({label: 'Expenditure Reports', icon: 'pi pi-fw pi-bars',command: () => { window.location = "ExpenditureReport"}})
+    localStorage.getItem("participant") === "Donor" && assetMenu.push({label: 'Receipts', icon: 'pi pi-fw pi-bars',command: () => { window.location = "Receipt"}})
+
+    this.menu.push({
       label: 'Assets', icon: 'pi pi-fw pi-dollar',
-      items: [
-        {label: 'Wallets', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Wallet"} },
-        {label: 'Donation Drives', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "DonationDrive"} },
-        {label: 'Fund Transfer Requests', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "FundTransferRequest"} },
-        {label: 'Expenditure Reports', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "ExpenditureReport"} },
-        {label: 'Receipts', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Receipt"} },
-      ]
+      items: assetMenu
     });
+
+
     this.menu.push({
       label: 'Transactions', icon: 'pi pi-fw pi-briefcase',
       items: [
