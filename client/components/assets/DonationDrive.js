@@ -3,7 +3,18 @@ import Helmet from 'react-helmet';
 import { httpGET } from '../../utils/httpUtils'
 import {Card} from 'primereact/card';
 import {Button} from 'primereact/button';
+import firebase from 'firebase';
 
+
+firebase.initializeApp({
+  apiKey: "AIzaSyAIn9kS-Kh3PkUfSTQ--tAgTDptcSNbDyM",
+  authDomain: "charity-e8ccd.firebaseapp.com",
+  databaseURL: "https://charity-e8ccd.firebaseio.com",
+  projectId: "charity-e8ccd",
+  storageBucket: "charity-e8ccd.appspot.com",
+  messagingSenderId: "212836409307"
+});
+const db = firebase.database();
 
 export default class DonationDrive extends Component {
   constructor(props) {
@@ -21,22 +32,17 @@ export default class DonationDrive extends Component {
          console.log(JSON.stringify(response, null, 2));
         let dd = response.data;
         let dataToRender = [];
-
-        for (let donationDrive of dd) {
-          let beneficiaryString = "";
-          let supplierString = "fddsfd";
-
-          for (let beneficiary of charitable.beneficiaries)
-            beneficiaryString += beneficiary.substring(40) + ", ";
-          for (let suppliers of charitable.suppliers)
-            supplierString += suppliers.substring(40) + ", ";
-
+        for(let donationDrive of dd)
+        {
+        db.ref('/DonationDrive/' + donationDrive.id).once('value').then(function(snapshot) {
+          var donationDriveName = (snapshot.val() && snapshot.val()) || 'Anonymous';
           dataToRender.push({
-            uen: charitable.uen,
-            beneficiaries: beneficiaryString,
-            suppliers: supplierString,
+            uen: donationDrive.charitableOrganisation.uen,
+            driveName: donationDrive.donationDriveName,
           })
-        }
+        });
+      }
+       
         this.setState({ data: dataToRender });
         console.log(this.state.data);
       })
@@ -62,8 +68,7 @@ export default class DonationDrive extends Component {
         <br/>
 
         <Card title={this.state.data && this.state.data.uen} subTitle="Subtitle" style={{width: '360px'}} className="ui-card-shadow" footer={footer} header={header}>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                            quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</div>
+                        <div>{this.state.data && this.state.data.driveName}</div>
                     </Card>
         <p>
           {
