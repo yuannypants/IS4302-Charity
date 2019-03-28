@@ -6,6 +6,7 @@ const db = firebase.database();
 
 export function viewParticipantOrAsset (req, res) {
   let url = 'http://localhost:3000/bc/api/' + req.params.type;
+  console.log("aaa");
   let firebaseRef = req.params.type;
   if (req.params.id) {
     url += '/' + req.params.id;
@@ -24,3 +25,5 @@ export function viewParticipantOrAsset (req, res) {
     })
   })
 }
+
+
