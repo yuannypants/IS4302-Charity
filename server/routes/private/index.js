@@ -26,6 +26,9 @@ router.route('/MakeDonation').post((req, res) => {
 router.route('/TransferFund').post((req, res) => {
   TransactionController.transferFunds(req, res)});
 
+router.route('/UploadReceipt').post((req, res) => {
+  TransactionController.uploadReceipt(req, res)});
+
 router.route('/ValidateFundTransferRequest').post((req, res) => {
   TransactionController.validateFundTransferRequest(req, res)});
 

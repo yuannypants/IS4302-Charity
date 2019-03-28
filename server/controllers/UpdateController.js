@@ -1,42 +1,26 @@
 import firebase from 'firebase';
-import { httpUPDATE } from '../utils/httpUtils'
+import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
 
 const db = firebase.database();
 
-export function someUpdateFunction (req, res) {
-  let { value1, value2 } = req.body;
-  let url = 'http://localhost:3000/bc/api/SomeAPILink';
-  if (req.params.id)
-    url += req.params.id
-  let firebaseRef = 'somePath/' + 'someId';
-  let data = {
-    "key1": "value1",
-  };
+export function updateParticipantOrAsset (req, res) {
+  let url = 'http://localhost:3000/bc/api/' + req.params.type;
+  let firebaseRef = req.params.type;
+  if (req.params.id) {
+    url += '/' + req.params.id;
+    firebaseRef += '/' + req.params.id;
+  }
 
   // Do something with blockchain
-  httpUPDATE(url, data)
+  httpGET(url)
   .then(responseFromComposer => {
-    // Do something with Firebase
-    // db.ref(firebaseRef).set({
-    //   key1: "value1",
-    // }, firebaseError => {
-    //   if (firebaseError)
-    //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-    //       errorSource: "firebase",
-    //       firebaseError,
-    //     });
-    //   else
-        res.json({
-          data: responseFromComposer.data,
-          key1: "value1",
-        });
-    // })
+    res.json(responseFromComposer.data);
   })
-  .catch(err => {
+   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      err,
+      // err,
     })
   })
 }
