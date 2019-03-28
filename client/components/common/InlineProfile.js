@@ -45,7 +45,7 @@ export class InlineProfile extends Component {
           
           {/*<i className="pi pi-fw pi-cog"/>*/}
         </button><br/>
-        <span className="balance"  >Wallet Balance: ${this.state.walletBalance.toFixed(2)}</span>
+        <span className="balance"  >Wallet Balance: ${this.state.walletBalance && this.state.walletBalance.toFixed(2)}</span>
         {/*<ul className={classNames({'profile-expanded': this.state.expanded})}>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-user"/><span>Account</span></button></li>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-inbox"/><span>Notifications</span></button></li>*/}
