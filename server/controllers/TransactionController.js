@@ -2,7 +2,6 @@ import firebase from 'firebase';
 import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
 
-
 const db = firebase.database();
 
 export function createDonationDrive (req, res) {
@@ -271,7 +270,46 @@ export function walletTransaction (req, res) {
         });
     })
   })
-   .catch(err => {
+  .catch(err => {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errorSource: "blockchain",
+      // err
+    })
+  })
+}
+
+export function uploadReceipt (req, res) {
+  let { value1, value2 } = req.body;
+  let url = 'http://localhost:3000/bc/api/UploadReceipt';
+  let firebaseRef = 'somePath/' + 'someId';
+  let data = {
+    "$class": "com.is4302.charity.UploadReceipt",
+    "filePath": "string",
+    "donationDrive": {}
+  };
+
+  // Do something with blockchain
+  httpPOST(url, data)
+  .then(responseFromComposer => {
+    // Do something with Firebase
+    db.ref(firebaseRef).set({
+      key1: "value1",
+      key2: "value2",
+    }, firebaseError => {
+      if (firebaseError)
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          errorSource: "firebase",
+          firebaseError,
+        });
+      else
+        res.json({
+          data: responseFromComposer.data,
+          key1: "value1",
+          key2: "value2",
+        });
+    })
+  })
+  .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
       // err
