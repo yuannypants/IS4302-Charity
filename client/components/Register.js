@@ -51,19 +51,19 @@ export default class Register extends Component {
           <div className="card card-w-title">
             <h1 style={{textAlign: 'center'}}>Register</h1>
             <div className="p-grid p-justify-center">
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <InputText id="nricInput" value={this.state.nric} onChange={e => this.setState({nric: e.target.value})} />
                   <label htmlFor="nricInput">NRIC</label>
                 </span>
               </div>
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <InputText id="firstNameInput" value={this.state.firstName} onChange={e => this.setState({firstName: e.target.value})} />
                   <label htmlFor="firstNameInput">First Name</label>
                 </span>
               </div>
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <InputText id="lastNameInput" value={this.state.lastName} onChange={e => this.setState({lastName: e.target.value})} />
                   <label htmlFor="lastNameInput">Last Name</label>

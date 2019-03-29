@@ -23,8 +23,6 @@ participant Beneficiary identified by id {
 
 participant Validator identified by id {
   o String id
-  --> ExpenditureReport[] expenditureReports optional
-  --> FundTransferRequest[] fundTransferRequests optional
 }
 
 asset Wallet identified by id {

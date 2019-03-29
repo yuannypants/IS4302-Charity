@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import { JsonToTable } from 'react-json-to-table'
 import { httpGET } from '../../utils/httpUtils'
 
 export default class Validator extends Component {
@@ -20,17 +21,19 @@ export default class Validator extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="p-grid p-fluid p-justify-center">
         <Helmet>
-          <title>View Validators</title>
-          <meta name="description" content="View Validators" />
+          <title>Validators</title>
+          <meta name="description" content="Validators" />
         </Helmet>
-        <h1>View Validators</h1>
-        <p>
-          {
-            this.state.data && JSON.stringify(this.state.data)
-          }
-        </p>
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1>Validators</h1>
+            {
+              this.state.data && <JsonToTable json={this.state.data} />
+            }
+          </div>
+        </div>
       </div>
     );
   }
