@@ -109,6 +109,8 @@ class RootContainer extends Component {
           command: () => { window.location = "TransferFund"} },
         {label: 'Validate Fund Transfer Request', icon: 'pi pi-fw pi-bars',
           command: () => { window.location = "ValidateFundTransferRequest"} },
+        {label: 'Upload Receipt', icon: 'pi pi-fw pi-bars',
+          command: () => { window.location = "UploadReceipt"} },
         {label: 'Wallet Transaction', icon: 'pi pi-fw pi-bars',
           command: () => { window.location = "WalletTransaction"} }
       ]
