@@ -12,11 +12,11 @@ export default class WalletTransaction extends Component {
     super(props);
 
     this.state = {
-      error: null,
       walletId: null,
       walletBalance: 0,
       transferType: 'TOP_UP',
       amount: 0,
+      error: null,
     }
   }
 

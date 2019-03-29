@@ -118,35 +118,19 @@ export function createFundTransferRequest (req, res) {
 }
 
 export function makeDonation (req, res) {
-  let { value1, value2 } = req.body;
+  let { amount, donationDriveName } = req.body;
   let url = 'http://localhost:3000/bc/api/MakeDonation';
-  let firebaseRef = 'somePath/' + 'someId';
   let data = {
     "$class": "com.is4302.charity.MakeDonation",
-    "amount": 0,
-    "donationDrive": {},
+    "amount": amount,
+    "donationDrive": donationDriveName,
   };
 
   // Do something with blockchain
   httpPOST(url, data)
   .then(responseFromComposer => {
     // Do something with Firebase
-    db.ref(firebaseRef).set({
-      key1: "value1",
-      key2: "value2",
-    }, firebaseError => {
-      if (firebaseError)
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-          errorSource: "firebase",
-          firebaseError,
-        });
-      else
-        res.json({
-          data: responseFromComposer.data,
-          key1: "value1",
-          key2: "value2",
-        });
-    })
+    console.log("MakeDonation: RFC " + responseFromComposer);
   })
   .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
