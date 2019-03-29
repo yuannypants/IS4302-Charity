@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import { JsonToTable } from 'react-json-to-table'
 import { httpGET } from '../../utils/httpUtils'
 
 export default class Receipt extends Component {
@@ -21,17 +22,19 @@ export default class Receipt extends Component {
 
   render() {
     return (
-      <div>
+      <div className="p-grid p-fluid p-justify-center">
         <Helmet>
-          <title>View Receipts</title>
-          <meta name="description" content="View Receipts" />
+          <title>Receipts</title>
+          <meta name="description" content="Receipts" />
         </Helmet>
-        <h1>View Receipts</h1>
-        <p>
-          {
-            this.state.data && JSON.stringify(this.state.data)
-          }
-        </p>
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1>Receipts</h1>
+            {
+              this.state.data && <JsonToTable json={this.state.data} />
+            }
+          </div>
+        </div>
       </div>
     );
   }

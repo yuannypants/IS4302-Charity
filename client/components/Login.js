@@ -56,13 +56,13 @@ export default class Login extends Component {
           <div className="card card-w-title">
             <h1 style={{textAlign: 'center'}}>Log In</h1>
             <div className="p-grid p-justify-center">
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <InputText id="usernameInput" value={this.state.username} onChange={e => this.setState({username: e.target.value})} />
                   <label htmlFor="usernameInput">Username</label>
                 </span>
               </div>
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <Password id="passwordInput" value={this.state.password} onChange={e => this.setState({password: e.target.value})}
                             feedback={false}/>

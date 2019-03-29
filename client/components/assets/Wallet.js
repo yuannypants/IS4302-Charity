@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import { JsonToTable } from 'react-json-to-table'
 import { httpGET } from '../../utils/httpUtils';
 
 const localStorage = window.localStorage;
@@ -23,17 +24,19 @@ export default class Wallet extends Component {
 
   render() {
     return (
-      <div>
+      <div className="p-grid p-fluid p-justify-center">
         <Helmet>
-          <title>View Wallets</title>
-          <meta name="description" content="View Wallets" />
+          <title>Wallets</title>
+          <meta name="description" content="Wallets" />
         </Helmet>
-        <h1>View Wallets</h1>
-        <p>
-        {
-          this.state.data && JSON.stringify(this.state.data)
-        }
-        </p>
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1>Wallets</h1>
+            {
+              this.state.data && <JsonToTable json={this.state.data} />
+            }
+          </div>
+        </div>
       </div>
     );
   }

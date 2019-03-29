@@ -67,7 +67,6 @@ export default class WalletTransaction extends Component {
 
   render() {
     return (
-
       <div className="p-grid p-fluid p-justify-center">
         <Helmet>
           <title>Wallet Transaction</title>

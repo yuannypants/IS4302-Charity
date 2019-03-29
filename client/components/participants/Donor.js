@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import { httpGET } from '../../utils/httpUtils'
+import { JsonToTable } from 'react-json-to-table';
+import { httpGET } from '../../utils/httpUtils';
 
 export default class Donor extends Component {
   constructor(props) {
@@ -21,17 +22,19 @@ export default class Donor extends Component {
 
   render() {
     return (
-      <div>
+      <div className="p-grid p-fluid p-justify-center">
         <Helmet>
-          <title>View Donors</title>
-          <meta name="description" content="View Donors" />
+          <title>Donors</title>
+          <meta name="description" content="Donors" />
         </Helmet>
-        <h1>View Donors (must be logged in)</h1>
-        <p>
-        {
-          this.state.data && JSON.stringify(this.state.data)
-        }
-        </p>
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1>Donors</h1>
+            {
+              this.state.data && <JsonToTable json={this.state.data} />
+            }
+          </div>
+        </div>
       </div>
     );
   }

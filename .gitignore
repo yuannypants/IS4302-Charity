@@ -3,7 +3,7 @@
 /.idea
 *.bna
 *.card
-.DS_Store
 
+.DS_Store
 DevServer_connection.json
 package-lock.json
