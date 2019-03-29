@@ -73,9 +73,9 @@ export default class WalletTransaction extends Component {
           <title>Wallet Transaction</title>
           <meta name="description" content="Wallet Transaction" />
         </Helmet>
-        <div className="p-col-6">
+        <div className="p-col-12">
           <div className="card card-w-title">
-            <h1 style={{ textAlign: 'center' }}>Wallet Transaction</h1>
+            <h1>Wallet Transaction</h1>
             <div className="p-indent p-justify-center">
               <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
               <form>
