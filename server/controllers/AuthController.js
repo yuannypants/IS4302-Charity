@@ -1,3 +1,4 @@
+import axios from 'axios'
 import firebase from 'firebase';
 import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
@@ -8,35 +9,68 @@ export function register(req, res) {
   // Chain data:    nric
   // Offchain data: firstName, lastName, password
   let { nric, firstName, lastName, password } = req.body;
-  let url = 'http://localhost:3000/bc/api/RegisterDonor';
+  let registerDonorURL = 'http://localhost:3000/bc/api/RegisterDonor';
+  let registerIdentityURL = 'http://localhost:3000/bc/api/system/identities/issue';
   let firebaseRef = 'Donor/' + nric;
-  let data =
+  let donor =
     {
       "$class": "com.is4302.charity.RegisterDonor",
       "walletId": nric,
       "donorId": nric
     };
+  let identity =
+    {
+      "participant": "com.is4302.charity.Donor#" + nric,
+      "userID": nric,
+      "options": {
+        "issuer":true
+      }
+    };
 
 
   // Add into blockchain first
-  httpPOST(url, data)
+  httpPOST(registerDonorURL, donor)
   .then(responseFromComposer => {
-    // then add into Firebase
-    db.ref(firebaseRef).set({
-      firstName: firstName,
-      lastName: lastName,
-      password: password
-    }, firebaseError => {
-      if (firebaseError)
-        res.json({
-          errorSource: "firebase",
-          firebaseError,
-        })
-      else
-        res.json({
-          errorSource: null,
-        })
+    axios.post(registerIdentityURL, identity, {responseType: 'blob'})
+    .then(cardData => {
+      console.log('CARD-DATA', cardData);
+      const file = new File([cardData], nric + '.card', {type: 'application/octet-stream', lastModified: Date.now()});
+
+      const formData = new FormData();
+      formData.append('card', file);
+
+      const headers = new HttpHeaders();
+      headers.set('Content-Type', 'multipart/form-data');
+
+      axios.post('http://localhost:3000/bc2/api/wallet/import', formData, {
+        withCredentials: true,
+        headers
+      })
+      .then(response => {
+        console.log(response);
+      })
     })
+    .catch(blockchainError => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({bce: blockchainError})
+    })
+    // .then(()=>{
+    //   // then add into Firebase
+    //   db.ref(firebaseRef).set({
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     password: password
+    //   }, firebaseError => {
+    //     if (firebaseError)
+    //       res.json({
+    //         errorSource: "firebase",
+    //         firebaseError,
+    //       })
+    //     else
+    //       res.json({
+    //         errorSource: null,
+    //       })
+    //   })
+    // })
   })
   .catch(blockchainError => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
