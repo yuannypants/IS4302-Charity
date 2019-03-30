@@ -77,44 +77,41 @@ export function createDonationDrive (req, res) {
 }
 
 export function createFundTransferRequest (req, res) {
-  let { value1, value2 } = req.body;
+  let { $class, fundRequestName, fundRequestPurpose, fundRequestAmount, donationDriveName, beneficiaries, suppliers } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateFundTransferRequest';
   let firebaseRef = 'somePath/' + 'someId';
   let data = {
-    "$class": "com.is4302.charity.CreateFundTransferRequest",
-    "fundTransferRequestId": "string",
-    "purpose": "string",
-    "amount": 0,
-    "numValidators": 0,
-    "donationDrive": {},
-    "beneficiaries": [
-      {}
-    ],
-    "suppliers": [
-      {}
-    ]
+    "$class": $class,
+    "fundTransferRequestId": fundRequestName,
+    "purpose": fundRequestPurpose,
+    "amount": fundRequestAmount,
+    "donationDrive": donationDriveName,
+    "beneficiaries": beneficiaries,
+    "suppliers": suppliers
   };
 
   // Do something with blockchain
   httpPOST(url, data)
   .then(responseFromComposer => {
+    console.log(responseFromComposer);
+
     // Do something with Firebase
-    db.ref(firebaseRef).set({
-      key1: "value1",
-      key2: "value2",
-    }, firebaseError => {
-      if (firebaseError)
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-          errorSource: "firebase",
-          firebaseError,
-        });
-      else
-        res.json({
-          responseFromComposer,
-          key1: "value1",
-          key2: "value2",
-        });
-    })
+    // db.ref(firebaseRef).set({
+    //   key1: "value1",
+    //   key2: "value2",
+    // }, firebaseError => {
+    //   if (firebaseError)
+    //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //       errorSource: "firebase",
+    //       firebaseError,
+    //     });
+    //   else
+    //     res.json({
+    //       responseFromComposer,
+    //       key1: "value1",
+    //       key2: "value2",
+    //     });
+    // })
   })
    .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
