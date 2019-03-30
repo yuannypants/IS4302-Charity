@@ -109,7 +109,7 @@ export default class WalletTransaction extends Component {
                     </tr>
                     <tr>
                       <td colSpan='2'>
-                        <Button type="button" label="Submit" className="p-button-raised p-button-raised" onClick={(e) => this.onClickSubmit()} />
+                        <Button type="button" label="Submit" className="p-button-raised p-button-raised" onClick={this.onClickSubmit} />
                       </td>
                     </tr>
                   </tbody>

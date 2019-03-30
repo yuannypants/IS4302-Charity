@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import { Button } from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import { httpPOST, httpGET } from '../../utils/httpUtils'
+import {InputTextarea} from 'primereact/inputtextarea';
 
 export default class UploadReceipt extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class UploadReceipt extends Component {
     this.state = {
       donationDrive: '',
       donationDrives: '',
+      receipt: '',
       error: null
     }
 
@@ -26,10 +28,11 @@ export default class UploadReceipt extends Component {
   // }
 
   onClickSubmit() {
-    const selectedFile = document.getElementsByName("receipt")[0].files[0];
-    console.log(selectedFile);
+    // const selectedFile = document.getElementsByName("receipt")[0].files[0];
+    // console.log(selectedFile);
+    console.log(this.state.receipt);
     let data = {
-      file: selectedFile,
+      receipt: this.state.receipt,
       donationDrive: "AAA"
     }
 
@@ -66,9 +69,10 @@ export default class UploadReceipt extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td><b>Select File: </b></td>
+                      <td><b>Receipt Data: </b></td>
                       <td>
-                        <input type = "file" name = "receipt"/>
+                        {/* <input type = "file" name = "receipt"/> */}
+                        <InputTextarea value = {this.state.receipt} rows = {5} cols = {30} autoResize = {true} onChange = {(e) => this.setState({receipt: e.target.value})} />
                       </td>
                     </tr>
                     <tr>

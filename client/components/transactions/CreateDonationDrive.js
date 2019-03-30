@@ -118,7 +118,7 @@ export default class CreateDonationDrive extends Component {
                     </tr>
                     <tr>
                       <td colSpan='2'>
-                        <Button label="Submit" icon="pi pi-user-plus" onClick={() => this.onClickSubmit()} />
+                        <Button label="Submit" className="p-button-raised p-button-raised"  onClick={() => this.onClickSubmit()} />
                       </td>
                     </tr>
                   </tbody>

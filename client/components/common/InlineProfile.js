@@ -27,7 +27,7 @@ export class InlineProfile extends Component {
     httpGET(url)
     .then(response => {
       console.log(response);
-      this.setState({walletBalance: response.data.balance});
+      this.setState({walletBalance: response.data.data.balance});
     })
   }
 
