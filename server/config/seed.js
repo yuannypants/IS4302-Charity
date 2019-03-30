@@ -39,9 +39,9 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/Supplier', {"$class": "com.is4302.charity.Supplier","uen": "201912345V","wallet": 'resource:com.is4302.charity.Wallet#201912345V'}).then(() => console.log('    Seeded Supplier: 201912345V')))
 
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Validator..."))
-.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321A","expenditureReports": [],"fundTransferRequests": []}).then(() => console.log('    Seeded Validator: S7654321A')))
-.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321B","expenditureReports": [],"fundTransferRequests": []}).then(() => console.log('    Seeded Validator: S7654321B')))
-.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321C","expenditureReports": [],"fundTransferRequests": []}).then(() => console.log('    Seeded Validator: S7654321C')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321A"}).then(() => console.log('    Seeded Validator: S7654321A')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321B"}).then(() => console.log('    Seeded Validator: S7654321B')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321C"}).then(() => console.log('    Seeded Validator: S7654321C')))
 
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Wallet..."))
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 12.50,"id": "S1234567A"}).then(() => console.log('    Seeded Wallet: S1234567A')))

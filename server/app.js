@@ -7,8 +7,6 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../webpack/webpack.config.dev';
 
-import clientRouter from './routes/client';
-
 import apiRouter from './routes';
 import * as errorHandler from './middlewares/errorHandler';
 
@@ -21,7 +19,12 @@ if (process.env.MODE === 'development') {
 
 // Reverse proxy for blockchain
 app.use('/bc', proxy(() => {
-  console.log('BLOCKCHAIN API CALL');
+  console.log('Single-user blockchain API call received.');
+  return 'localhost:3001/';
+}))
+// Reverse proxy for blockchain
+app.use('/bc2', proxy(() => {
+  console.log('Multi-user blockchain API call received.');
   return 'localhost:3001/';
 }))
 
@@ -29,23 +32,11 @@ app.use('/bc', proxy(() => {
 app.use('/api', apiRouter);
 
 // Router for frontend
-// app.use('*', clientRouter);
 app.get('*', (req, res) => { res.sendFile(path.join(process.cwd(), 'public/index.html')) });
 
 // If URL doesn't match any router paths, pass to error handlers
 app.use(errorHandler.notFoundErrorHandler);
 app.use(errorHandler.errorHandler);
-
-// Error handler
-// app.use(function(err, req, res, next) {
-//   // Set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-//   // Renders the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
 
 app.listen(app.get('port'), app.get('host'), () => {
     console.log(`Server running at http://${app.get('host')}:${app.get('port')}`);

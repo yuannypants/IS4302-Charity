@@ -31,7 +31,7 @@ async function walletTransaction(transactionObject) {
 
   // check if participant account type can make deposits and withdraw
   // all are allowed except donation drive wallets which will go through other function
-  if (participant.getFullyQualifiedType() != 'com.is4302.charity.Donor' && 
+  if (participant.getFullyQualifiedType() != 'com.is4302.charity.Donor' &&
       participant.getFullyQualifiedType() != 'com.is4302.charity.Beneficiary' &&
       participant.getFullyQualifiedType() != 'com.is4302.charity.Supplier') {
     throw new Error("Account type does not have wallet");
@@ -72,7 +72,7 @@ async function createDonationDrive(donationDriveObject) {
   var submittedBeneficiariesTemp = [];
 
   if (participant.getFullyQualifiedType() !== "com.is4302.charity.CharitableOrganisation") {
-    throw new Error("Account type cannot create donation drive"); 
+    throw new Error("Account type cannot create donation drive");
   }
 
   // formatting charitable organisation's array of beneficiary by ids
@@ -91,7 +91,7 @@ async function createDonationDrive(donationDriveObject) {
 
   for(let submittedBeneficiary of submittedBeneficiariesTemp) {
      if (!charityBeneficiariesTemp.includes(submittedBeneficiary)){
-        throw new Error("Not all beneficiaries submitted belongs charitable organisation's list of beneficiaries"); 
+        throw new Error("Not all beneficiaries submitted belongs charitable organisation's list of beneficiaries");
       }
   }
 
@@ -100,7 +100,7 @@ async function createDonationDrive(donationDriveObject) {
 
   var donationDrive = factory.newResource(
     "com.is4302.charity", "DonationDrive", donationDriveObject.donationDriveId);
-    
+
   var wallet = factory.newResource(
     "com.is4302.charity", "Wallet", donationDriveObject.walletId);
   wallet.balance = 0;
@@ -110,14 +110,14 @@ async function createDonationDrive(donationDriveObject) {
   wallet.isDonationDrive = true;
   var walletRegistry = await getAssetRegistry("com.is4302.charity.Wallet");
   await walletRegistry.add(wallet);
-  
+
   donationDrive.wallet = wallet;
   donationDrive.charitableOrganisation = participant;
   donationDrive.beneficiaries = donationDriveObject.beneficiaries;
-  
+
   var expenditureReport = factory.newResource(
     "com.is4302.charity", "ExpenditureReport", donationDriveObject.expenditureReportId);
-  expenditureReport 
+  expenditureReport
   var expenditureReportRegistry = await getAssetRegistry("com.is4302.charity.ExpenditureReport");
   await expenditureReportRegistry.add(expenditureReport);
   donationDrive.expenditureReport = expenditureReport;
@@ -126,26 +126,26 @@ async function createDonationDrive(donationDriveObject) {
   if (donationDriveObject.suppliers != null) {
     var charitySuppliersTemp = [];
     var submittedSuppliersTemp = [];
-    
+
       for(let charitySupplier of participant.suppliers) {
           charitySuppliersTemp.push(
             charitySupplier.toString().substring(
               charitySupplier.toString().search("#")+1,charitySupplier.toString().search("}")));
     }
-    
+
       for(let submittedSupplier of donationDriveObject.suppliers) {
           submittedSuppliersTemp.push(
             submittedSupplier.toString().substring(
               submittedSupplier.toString().search("#")+1,submittedSupplier.toString().search("}")));
     }
-    
+
       for(let submittedSupplier of submittedSuppliersTemp) {
         if (!charitySuppliersTemp.includes(submittedSupplier)){
             throw new Error(
-              "Not all suppliers submitted belongs charitable organisation's list of suppliers"); 
+              "Not all suppliers submitted belongs charitable organisation's list of suppliers");
         }
     }
-    
+
       donationDrive.suppliers = donationDriveObject.suppliers;
   }
 
@@ -194,59 +194,59 @@ async function createFundTransferRequest(fundTransferRequestObject) {
   fundTransferRequest.purpose = fundTransferRequestObject.purpose;
   fundTransferRequest.donationDrive = fundTransferRequestObject.donationDrive;
   fundTransferRequest.approvalStatus = "NOT_APPROVED";
-  
+
    if(fundTransferRequestObject.beneficiaries != null) {
     var donationDriveBeneficiariesTemp = [];
     var submittedBeneficiariesTemp = [];
-    
+
       for(let donationDriveBeneficiary of fundTransferRequest.donationDrive.beneficiaries) {
           donationDriveBeneficiariesTemp.push(
             donationDriveBeneficiary.toString().substring(
               donationDriveBeneficiary.toString().search("#")+1,donationDriveBeneficiary.toString().search("}")));
     }
-    
+
       for(let submittedBeneficiary of fundTransferRequestObject.beneficiaries) {
           submittedBeneficiariesTemp.push(
             submittedBeneficiary.toString().substring(
               submittedBeneficiary.toString().search("#")+1,submittedBeneficiary.toString().search("}")));
     }
-    
+
       for(let submittedBeneficiary of submittedBeneficiariesTemp) {
         if (!donationDriveBeneficiariesTemp.includes(submittedBeneficiary)){
             throw new Error(
-              "Not all beneficiaries submitted belongs donation drive's list of beneficiaries"); 
+              "Not all beneficiaries submitted belongs donation drive's list of beneficiaries");
         }
     }
       fundTransferRequest.beneficiaries = fundTransferRequestObject.beneficiaries;
   }
-  
+
   if(fundTransferRequestObject.suppliers != null) {
     var donationDriveSuppliersTemp = [];
     var submittedSuppliersTemp = [];
-    
+
       for(let donationDriveSupplier of fundTransferRequest.donationDrive.suppliers) {
           donationDriveSuppliersTemp.push(
             donationDriveSupplier.toString().substring(
               donationDriveSupplier.toString().search("#")+1,donationDriveSupplier.toString().search("}")));
     }
-    
+
       for(let submittedSupplier of fundTransferRequestObject.suppliers) {
           submittedSuppliersTemp.push(
             submittedSupplier.toString().substring(
               submittedSupplier.toString().search("#")+1,submittedSupplier.toString().search("}")));
     }
-    
+
       for(let submittedSupplier of submittedSuppliersTemp) {
         if (!donationDriveSuppliersTemp.includes(submittedSupplier)){
             throw new Error(
-              "Not all suppliers submitted belongs donation drive's list of suppliers"); 
+              "Not all suppliers submitted belongs donation drive's list of suppliers");
         }
     }
       fundTransferRequest.suppliers = fundTransferRequestObject.suppliers;
   }
-  
+
   await fundTransferRequestRegistry.add(fundTransferRequest);
-  
+
   var expenditureReportRegistry = await getAssetRegistry("com.is4302.charity.ExpenditureReport");
 
   // check if expenditure report has any fund transfer requests
@@ -258,7 +258,7 @@ async function createFundTransferRequest(fundTransferRequestObject) {
   	fundTransferRequestObject.donationDrive.expenditureReport.fundTransferRequests.push(fundTransferRequest);
   }
   await expenditureReportRegistry.update(fundTransferRequestObject.donationDrive.expenditureReport);
-  
+
   return("Success");
 }
 
@@ -271,24 +271,24 @@ async function validateFundTransferRequest(validateFundTransferRequestObject) {
   var participant = getCurrentParticipant();
   var validatorRegistry = await getParticipantRegistry("com.is4302.charity.Validator");
   var validators = await validatorRegistry.getAll();
-  
+
   if (participant.getFullyQualifiedType() !== ("com.is4302.charity.Validator")) {
-  	throw new Error("Account type not allowed to validate fund transfer"); 
+  	throw new Error("Account type not allowed to validate fund transfer");
   }
-  
+
   var fundTransferRequestId = validateFundTransferRequestObject.fundTransferRequest.toString().substring(
     validateFundTransferRequestObject.fundTransferRequest.toString().search("#")+1,
     validateFundTransferRequestObject.fundTransferRequest.toString().search("}"));
   var fundTransferRequestRegistry = await getAssetRegistry("com.is4302.charity.FundTransferRequest");
   var fundTransferRequest = await fundTransferRequestRegistry.get(fundTransferRequestId);
-  
+
   if(fundTransferRequest.validators == null) {
   	fundTransferRequest.validators = [participant];
   }
   else {
   	fundTransferRequest.validators.push(participant);
   }
-  
+
    	await fundTransferRequestRegistry.update(fundTransferRequest);
 
   // check for more than 50% of validators approving
@@ -324,29 +324,29 @@ async function transferFund(transferFundObject) {
   if (transferFundObject.suppliers != null) {
       suppliersLen = transferFundObject.suppliers.length;
   }
-  
+
   var numTransfer = beneficiariesLen + suppliersLen;
 
   if (transferFundObject.donationDrive.wallet.balance < transferFundObject.amount * numTransfer) {
-    throw new Error("Wallet does not have sufficient funds"); 
+    throw new Error("Wallet does not have sufficient funds");
   }
 
   else {
       transferFundObject.donationDrive.wallet.balance -= transferFundObject.amount * numTransfer;
       var expenditureReportRegistry = await getAssetRegistry("com.is4302.charity.ExpenditureReport");
       var walletRegistry = await getAssetRegistry("com.is4302.charity.Wallet");
-    
+
       // assign all beneficiary with the amount
       for(let beneficiary of transferFundObject.beneficiaries) {
         beneficiary.wallet.balance += transferFundObject.amount;
           await walletRegistry.update(beneficiary.wallet);
       };
-  
+
       for(let supplier of transferFundObject.suppliers) {
         supplier.wallet.balance += transferFundObject.amount;
           await walletRegistry.update(supplier.wallet);
       };
-    
+
       await walletRegistry.update(transferFundObject.donationDrive.wallet);
       return("Success");
   }
