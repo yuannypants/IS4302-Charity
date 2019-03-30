@@ -1,37 +1,47 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext'
-import { httpPOST } from '../../utils/httpUtils'
+import {Dropdown} from 'primereact/dropdown';
+import { httpPOST, httpGET } from '../../utils/httpUtils'
 
 export default class UploadReceipt extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      something: '',
-      something2: '',
+      donationDrive: '',
+      donationDrives: '',
       error: null
     }
 
     this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
+  // componentWillMount() {
+  //   let url = 'http://localhost:3000/api/private/DonationDrive'
+  //   httpGET(url)
+  //   .then(response => {
+  //     this.setState({donationDrives: response})
+  //   })
+  // }
+
   onClickSubmit() {
+    const selectedFile = document.getElementsByName("receipt")[0].files[0];
+    console.log(selectedFile);
     let data = {
-      something: this.state.something,
-      something2: this.state.something2
+      file: selectedFile,
+      donationDrive: "AAA"
     }
 
-    httpPOST('http://localhost:3000/private/link', data)
-    .then(response => {
-      // do something
-    })
-     .catch(error => {
-      // catch errors
-      let errorMsg = "";
-      this.setState({error: errorMsg})
-    });
+    httpPOST('http://localhost:3000/api/private/uploadReceipt', data)
+      .then(response => {
+        console.log("Uploaded");
+      })
+      .catch(error => {
+        // catch errors
+        let errorMsg = "Error uploading receipt!";
+        this.setState({ error: errorMsg })
+      });
   }
 
   render() {
@@ -44,22 +54,32 @@ export default class UploadReceipt extends Component {
         <div className="p-col-12">
           <div className="card card-w-title">
             <h1>Upload Receipt</h1>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="somethingInput">Something</label>
-              <InputText id="somethingInput" value={this.state.something} onChange={e => this.setState({something: e.target.value})} />
-            </div>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="something2Input">Something 2</label>
-              <InputText id="something2Input" value={this.state.something2} onChange={e => this.setState({something2: e.target.value})} />
-            </div>
-            {
-              this.state.error && <div className="p-col-10">
-                <small style={{color:'red'}}>{this.state.error}</small>
-              </div>
-            }
-            <div className="p-col-1">
-              <Button label="Submit" icon="pi pi-user-plus" onClick={this.onClickSubmit}/>
-            </div>
+            <div className="p-indent p-justify-center">
+              <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
+              <form>
+                <table cellPadding="10" width="100%">
+                  <tbody>
+                    <tr>
+                      <td width="25%"><b>Select Donation Drive: </b></td>
+                      <td width="75%">
+                        <Dropdown value = {this.state.donationDrive} option = {this.state.donationDrives} onChange = {(e) => {this.setState({donationDrive: e.value})}} placeholder = 'Select a Donation Drive...' />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Select File: </b></td>
+                      <td>
+                        <input type = "file" name = "receipt"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='2'>
+                        <Button type="button" label="Upload" className="p-button-raised p-button-raised" onClick={(e) => this.onClickSubmit()} />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div >
           </div>
         </div>
       </div>

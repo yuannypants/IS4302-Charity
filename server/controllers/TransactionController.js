@@ -1,8 +1,10 @@
 import firebase from 'firebase';
+import 'firebase/storage';
 import { httpGET, httpPOST } from '../utils/httpUtils'
 import * as HttpStatus from 'http-status-codes';
 
 const db = firebase.database();
+const storage = firebase.storage();
 
 export function createDonationDrive (req, res) {
   let url = 'http://localhost:3000/bc/api/Donor';
@@ -279,23 +281,28 @@ export function walletTransaction (req, res) {
 }
 
 export function uploadReceipt (req, res) {
-  let { value1, value2 } = req.body;
+  var file = req.files;
+  var donationDrive = req.body.donationDrive;
+  console.log(file.length);
+  console.log(donationDrive);
   let url = 'http://localhost:3000/bc/api/UploadReceipt';
-  let firebaseRef = 'somePath/' + 'someId';
-  let data = {
-    "$class": "com.is4302.charity.UploadReceipt",
-    "filePath": "string",
-    "donationDrive": {}
-  };
+  let firebaseRef = 'Receipts/' + donationDrive;
+  // let data = {
+  //   "$class": "com.is4302.charity.UploadReceipt",
+  //   "filePath": "string",
+  //   "donationDrive": {}
+  // };
 
-  // Do something with blockchain
-  httpPOST(url, data)
-  .then(responseFromComposer => {
-    // Do something with Firebase
-    db.ref(firebaseRef).set({
-      key1: "value1",
-      key2: "value2",
-    }, firebaseError => {
+  // // Do something with blockchain
+  // httpPOST(url, data)
+  // .then(responseFromComposer => {
+  //   // Do something with Firebase
+
+    storage.ref().put(file)
+    .then(response => {
+      console.log("Uploaded");
+    })
+    .catch(firebaseError => {
       if (firebaseError)
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
           errorSource: "firebase",
@@ -308,11 +315,11 @@ export function uploadReceipt (req, res) {
           key2: "value2",
         });
     })
-  })
-  .catch(err => {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      errorSource: "blockchain",
-      // err
-    })
-  })
+  // })
+  // .catch(err => {
+  //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+  //     errorSource: "blockchain",
+  //     // err
+  //   })
+  // })
 }

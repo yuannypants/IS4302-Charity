@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import * as firebase from 'firebase'
 import constant from './directory'
+import fileUpload from 'express-fileupload';
 
 let app = express();
 
@@ -29,6 +30,7 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(express.static(constant.assetsDir));
+app.use(fileUpload());
 
 // Previous middlewares
 // app.use(logger('dev'));
