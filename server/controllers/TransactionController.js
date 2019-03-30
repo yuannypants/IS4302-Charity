@@ -21,31 +21,23 @@ export function createDonationDrive (req, res) {
   console.log(data);
 
   httpPOST(url,data)
-  .then(donationDriveResponse => {
-    console.log(donationDriveResponse + "BUGGY HERE");
-    // httpGET(url2).then(COResponse => {
-    //   db.ref('Donor/S1234567A').once("value", snapshot => {
-    //     let userInfo = snapshot.val();
-    //
-    //     // compare donorResponse (from blockchain) and userInfo (from firebase)
-    //
-    //     // after comparison, push to processedData and return in res.json()
-    //     console.log(donationDriveResponse);
-    //     res.json({
-    //       processedData: "processedData",
-    //       donorData: donationDriveResponse.data,
-    //       COData: COResponse.data,
-    //       userInfo: userInfo
-    //     })
-    //   })
-    // })
-  })
-  .catch(err => {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      errorSource: "blockchain",
-      // err
-    })
-  })
+      .then(donationDriveResponse => {
+        db.ref('DonationDrive/' + id).set({
+          description: donationDriveDescription,
+        }, firebaseError => {
+          if (firebaseError)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+              errorSource: "firebase",
+              firebaseError,
+            });
+        })
+      })
+      .catch(err => {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          errorSource: "blockchain",
+          // err
+        })
+      })
 
   // Do something with blockchain
   // httpPOST(url, data)
@@ -75,7 +67,6 @@ export function createDonationDrive (req, res) {
   //   })
   // })
 }
-
 export function createFundTransferRequest (req, res) {
   let { $class, fundRequestName, fundRequestPurpose, fundRequestAmount, donationDriveName, beneficiaries, suppliers } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateFundTransferRequest';
