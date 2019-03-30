@@ -25,8 +25,8 @@ export default class WalletTransaction extends Component {
     httpGET(url)
       .then(response => {
         this.setState({
-          walletId: response.data.id,
-          walletBalance: response.data.balance
+          walletId: response.data.data.id,
+          walletBalance: response.data.data.balance
         });
       })
   }
@@ -82,18 +82,24 @@ export default class WalletTransaction extends Component {
                 <table cellPadding="10" width="100%">
                   <tbody>
                     <tr>
-                      <td width="25%"><b>Current Balance: </b></td>
+                      <td width="25%">
+                        <label htmlFor="currentBalance">Current Balance:</label>
+                      </td>
                       <td width="75%">${parseFloat(this.state.walletBalance).toFixed(2)}</td>
                     </tr>
                     <tr>
-                      <td><b>Transfer Type: </b></td>
+                      <td>
+                        <label htmlFor="transferType">Transfer Type:</label>
+                      </td>
                       <td>
                         <RadioButton value="TOP_UP" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'TOP_UP'} /> Top-up &nbsp;
                         <RadioButton value="WITHDRAW" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'WITHDRAW'} /> Withdraw
                       </td>
                     </tr>
                     <tr>
-                      <td><b>Amount to {this.getTransferType()}: </b></td>
+                      <td>
+                        <label htmlFor="amount">Amount to {this.getTransferType()}:</label>
+                      </td>
                       <td>
                         <InputText id="amount" value={this.state.amount} onChange={(e) => this.setState({ amount: e.target.value })} />
                       </td>

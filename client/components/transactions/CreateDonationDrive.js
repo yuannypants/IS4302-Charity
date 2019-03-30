@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext'
 import { httpPOST } from '../../utils/httpUtils'
-import {ListBox} from 'primereact/listbox';
-import {httpGET} from "../../../server/utils/httpUtils";
+import { ListBox } from 'primereact/listbox';
+import { httpGET } from "../../../server/utils/httpUtils";
 
 
 const localStorage = window.localStorage;
@@ -16,9 +16,9 @@ export default class CreateDonationDrive extends Component {
     this.state = {
       donationDriveName: "",
       donationDriveDescription: "",
-      selectedBeneficiaries:[],
-      selectedSuppliers:[],
-      beneficiaries:[],
+      selectedBeneficiaries: [],
+      selectedSuppliers: [],
+      beneficiaries: [],
       suppliers: [],
       data: null,
       error: null
@@ -27,22 +27,20 @@ export default class CreateDonationDrive extends Component {
     this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
-  componentWillMount () {
-    httpGET('http://localhost:3000/api/private/CharitableOrganisation/201912345A'/*localStorage.getItem("username")*/)
-        .then(response => {
-          console.log(response.data.data);
-
-          let beneficiaries = response.data.data.beneficiaries;
-          let suppliers = response.data.data.suppliers;
-
-          this.setState({beneficiaries: beneficiaries, suppliers: suppliers});
-        })
-        .catch(error => {
-          // catch errors
-          console.log(error)
-          let errorMsg = "";
-          this.setState({error: errorMsg})
-        });
+  componentWillMount() {
+    httpGET('http://localhost:3000/api/private/CharitableOrganisation/201912345A')
+      .then(response => {
+        let beneficiaries = response.data.data.beneficiaries;
+        console.log(beneficiaries);
+        let suppliers = response.data.data.suppliers;
+        this.setState({ beneficiaries: beneficiaries, suppliers: suppliers });
+      })
+      .catch(error => {
+        // catch errors
+        console.log(error)
+        let errorMsg = "";
+        this.setState({ error: errorMsg })
+      });
   }
 
   onClickSubmit() {
@@ -55,14 +53,14 @@ export default class CreateDonationDrive extends Component {
     }
 
     httpPOST('http://localhost:3000/api/private/CreateDonationDrive', data)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      // catch errors
-      let errorMsg = error;
-      this.setState({error: errorMsg});
-    });
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        // catch errors
+        let errorMsg = error;
+        this.setState({ error: errorMsg });
+      });
   }
 
   render() {
@@ -74,31 +72,53 @@ export default class CreateDonationDrive extends Component {
         </Helmet>
         <div className="p-col-12">
           <div className="card card-w-title">
-            <h1>Create New Donation Drive</h1>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="donationDriveName">Donation Drive Name</label>
-              <InputText id="donationDriveName" value={this.state.donationDriveName} onChange={e => this.setState({donationDriveName: e.target.value})} />
-            </div>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="donationDriveDescription">Donation Drive Description</label>
-              <InputText id="donationDriveDescription" value={this.state.donationDriveDescription} onChange={e => this.setState({donationDriveDescription: e.target.value})} />
-            </div>
-            <div className="content-section implementation">
-            <label>Select Beneficiaries :</label>
-              <ListBox value={this.state.beneficiaries} options={this.state.beneficiaries} onChange={(e) => this.setState({selectedBeneficiaries: e.value})} multiple={true} optionLabel="BeneficiaryId"/>
-            </div>
-            <div className="content-section implementation">
-              <label>Select Suppliers:</label>
-              <ListBox value={this.state.suppliers} options={this.state.suppliers} onChange={(e) => this.setState({selectedBeneficiaries: e.value})} multiple={true} optionLabel="SupplierId"/>
-            </div>
-            {
-              this.state.error && <div className="p-col-10">
-                <small style={{color:'red'}}>{this.state.error}</small>
-              </div>
-            }
-            <br>
-            </br>
-            <Button label="Submit" icon="pi pi-user-plus" onClick={() => this.onClickSubmit()}/>
+            <h1>Create Donation Drive</h1>
+            <div className="p-indent p-justify-center">
+              <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
+              <form>
+                <table cellPadding="10" width="100%">
+                  <tbody>
+                    <tr>
+                      <td width="25%">
+                        <label htmlFor="donationDriveName">Donation Drive Name:</label>
+                      </td>
+                      <td width="75%">
+                        <InputText id="donationDriveName" value={this.state.donationDriveName} onChange={e => this.setState({ donationDriveName: e.target.value })} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label htmlFor="donationDriveDescription">Donation Drive Description:</label>
+                      </td>
+                      <td>
+                        <InputText id="donationDriveDescription" value={this.state.donationDriveDescription} onChange={e => this.setState({ donationDriveDescription: e.target.value })} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label htmlFor="donationDriveBeneficiaries">Donation Drive Beneficiaries:</label>
+                      </td>
+                      <td>
+                        <ListBox id="donationDriveBeneficiaries" value={this.state.selectedBeneficiaries} options={this.state.beneficiaries} onChange={(e) => this.setState({ selectedBeneficiaries: e.value })} multiple={true} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label htmlFor="donationDriveSuppliers">Donation Drive Suppliers:</label>
+                      </td>
+                      <td>
+                        <ListBox id="donationDriveSuppliers" optionLabel="supplierName" value={this.state.selectedSuppliers} options={this.state.suppliers} onChange={(e) => this.setState({ selectedSuppliers: e.value })} multiple={true} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='2'>
+                        <Button label="Submit" icon="pi pi-user-plus" onClick={() => this.onClickSubmit()} />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div >
           </div>
         </div>
       </div>
