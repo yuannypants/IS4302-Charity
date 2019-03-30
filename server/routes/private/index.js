@@ -14,7 +14,7 @@ router.route('/:type(Donor|CharitableOrganisation|Beneficiary|Supplier|Validator
 // Transactions-related
 router.route('/CreateDonationDrive/:id').get((req, res) => {
   TransactionController.createDonationDrive(req, res)});
-router.route('/CreateDonationDrive').get((req, res) => {
+router.route('/CreateDonationDrive').post((req, res) => {
   TransactionController.createDonationDrive(req, res)});
 
 router.route('/CreateFundTransferRequest').post((req, res) => {

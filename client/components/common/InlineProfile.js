@@ -18,17 +18,13 @@ export class InlineProfile extends Component {
     event.preventDefault();
   }
 
-  viewDonor() {
-    window.location.href = '/Wallet'
-  }
-
   componentWillMount() {
-    let url = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
-    httpGET(url)
-    .then(response => {
-      console.log(response);
-      this.setState({walletBalance: response.data.data.balance});
-    })
+    if (localStorage.getItem("username") !== null ) {
+      let url = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
+      httpGET(url).then(response => {
+        this.setState({ walletBalance: response.data.data.balance });
+      })
+    }
   }
 
   render() {
@@ -41,7 +37,7 @@ export class InlineProfile extends Component {
         <div>
           <img src={profileImg} alt="" />
         </div>
-        <button className="p-link profile-link" onClick = { this.viewDonor }>
+        <button className="p-link profile-link" onClick = { () => window.location.href = '/Wallet' }>
           <span className="username">{nickname} ({participant})</span>
           
           {/*<i className="pi pi-fw pi-cog"/>*/}

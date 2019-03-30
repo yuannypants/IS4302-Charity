@@ -69,7 +69,7 @@ export default class Register extends Component {
                   <label htmlFor="lastNameInput">Last Name</label>
                 </span>
               </div>
-              <div className="p-col-10" style={{marginTop:'15px'}}>
+              <div className="p-col-10" style={{marginTop:'8px'}}>
                 <span className="p-float-label">
                   <Password id="passwordInput" value={this.state.password} onChange={e => this.setState({password: e.target.value})}
                     feedback={false}/>

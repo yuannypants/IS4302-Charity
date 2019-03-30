@@ -22,32 +22,24 @@ export function createDonationDrive(req, res) {
 
   console.log(data);
 
-  httpPOST(url, data)
-    .then(donationDriveResponse => {
-      console.log(donationDriveResponse + "BUGGY HERE");
-      // httpGET(url2).then(COResponse => {
-      //   db.ref('Donor/S1234567A').once("value", snapshot => {
-      //     let userInfo = snapshot.val();
-      //
-      //     // compare donorResponse (from blockchain) and userInfo (from firebase)
-      //
-      //     // after comparison, push to processedData and return in res.json()
-      //     console.log(donationDriveResponse);
-      //     res.json({
-      //       processedData: "processedData",
-      //       donorData: donationDriveResponse.data,
-      //       COData: COResponse.data,
-      //       userInfo: userInfo
-      //     })
-      //   })
-      // })
-    })
-    .catch(err => {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errorSource: "blockchain",
-        // err
+  httpPOST(url,data)
+      .then(donationDriveResponse => {
+        db.ref('DonationDrive/' + id).set({
+          description: donationDriveDescription,
+        }, firebaseError => {
+          if (firebaseError)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+              errorSource: "firebase",
+              firebaseError,
+            });
+        })
       })
-    })
+      .catch(err => {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          errorSource: "blockchain",
+          // err
+        })
+      })
 
   // Do something with blockchain
   // httpPOST(url, data)
@@ -77,52 +69,47 @@ export function createDonationDrive(req, res) {
   //   })
   // })
 }
-
-export function createFundTransferRequest(req, res) {
-  let { value1, value2 } = req.body;
+export function createFundTransferRequest (req, res) {
+  let { $class, fundRequestName, fundRequestPurpose, fundRequestAmount, donationDriveName, beneficiaries, suppliers } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateFundTransferRequest';
   let firebaseRef = 'somePath/' + 'someId';
   let data = {
-    "$class": "com.is4302.charity.CreateFundTransferRequest",
-    "fundTransferRequestId": "string",
-    "purpose": "string",
-    "amount": 0,
-    "numValidators": 0,
-    "donationDrive": {},
-    "beneficiaries": [
-      {}
-    ],
-    "suppliers": [
-      {}
-    ]
+    "$class": $class,
+    "fundTransferRequestId": fundRequestName,
+    "purpose": fundRequestPurpose,
+    "amount": fundRequestAmount,
+    "donationDrive": donationDriveName,
+    "beneficiaries": beneficiaries,
+    "suppliers": suppliers
   };
 
   // Do something with blockchain
   httpPOST(url, data)
-    .then(responseFromComposer => {
-      // Do something with Firebase
-      db.ref(firebaseRef).set({
-        key1: "value1",
-        key2: "value2",
-      }, firebaseError => {
-        if (firebaseError)
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            errorSource: "firebase",
-            firebaseError,
-          });
-        else
-          res.json({
-            responseFromComposer,
-            key1: "value1",
-            key2: "value2",
-          });
-      })
-    })
-    .catch(err => {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errorSource: "blockchain",
-        // err
-      })
+  .then(responseFromComposer => {
+    console.log(responseFromComposer);
+
+    // Do something with Firebase
+    // db.ref(firebaseRef).set({
+    //   key1: "value1",
+    //   key2: "value2",
+    // }, firebaseError => {
+    //   if (firebaseError)
+    //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    //       errorSource: "firebase",
+    //       firebaseError,
+    //     });
+    //   else
+    //     res.json({
+    //       responseFromComposer,
+    //       key1: "value1",
+    //       key2: "value2",
+    //     });
+    // })
+  })
+   .catch(err => {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errorSource: "blockchain",
+      // err
     })
 }
 

@@ -31,7 +31,7 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "TestDrive", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: TestDrive')))
 
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding DonationDrive..."))
-.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "TestDrive","wallet": 'resource:com.is4302.charity.Wallet#TestDrive', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345A', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#TestDrive', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321A\"]"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
+.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "TestDrive", "wallet": 'resource:com.is4302.charity.Wallet#TestDrive', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345A', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#TestDrive', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321A\"]"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
 
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding ExpenditureReport..."))
 .then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "TestDrive"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))

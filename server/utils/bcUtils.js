@@ -1,8 +1,8 @@
 export function removeIdentifierInArr(data) {
   let newList = [];
-  data.forEach(item => {
-    newList.push(removeIdentifier(item));
-  })
+  // data.forEach(item => {
+  //   newList.push(removeIdentifier(item));
+  // })
   return newList;
 }
 
