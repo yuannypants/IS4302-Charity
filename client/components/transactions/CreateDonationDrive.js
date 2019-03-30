@@ -30,9 +30,15 @@ export default class CreateDonationDrive extends Component {
   componentWillMount() {
     httpGET('http://localhost:3000/api/private/CharitableOrganisation/201912345A')
       .then(response => {
-        let beneficiaries = response.data.data.beneficiaries;
+        let beneficiaries = [];
+        let suppliers = [];
+        for(var beneficiary = 0; beneficiary < response.data.data.beneficiaries.length; beneficiary++) {
+          beneficiaries.push({beneficiaryId: response.data.data.beneficiaries[beneficiary]});
+        }
         console.log(beneficiaries);
-        let suppliers = response.data.data.suppliers;
+        for(var supplier = 0; supplier < response.data.data.suppliers.length; supplier++) {
+          suppliers.push({supplierId: response.data.data.suppliers[supplier]});
+        }
         this.setState({ beneficiaries: beneficiaries, suppliers: suppliers });
       })
       .catch(error => {
@@ -99,7 +105,7 @@ export default class CreateDonationDrive extends Component {
                         <label htmlFor="donationDriveBeneficiaries">Donation Drive Beneficiaries:</label>
                       </td>
                       <td>
-                        <ListBox id="donationDriveBeneficiaries" value={this.state.selectedBeneficiaries} options={this.state.beneficiaries} onChange={(e) => this.setState({ selectedBeneficiaries: e.value })} multiple={true} />
+                        <ListBox id="donationDriveBeneficiaries" optionLabel="beneficiaryId"  value={this.state.selectedBeneficiaries} options={this.state.beneficiaries} onChange={(e) => this.setState({ selectedBeneficiaries: e.value })} multiple={true} />
                       </td>
                     </tr>
                     <tr>
@@ -107,7 +113,7 @@ export default class CreateDonationDrive extends Component {
                         <label htmlFor="donationDriveSuppliers">Donation Drive Suppliers:</label>
                       </td>
                       <td>
-                        <ListBox id="donationDriveSuppliers" optionLabel="supplierName" value={this.state.selectedSuppliers} options={this.state.suppliers} onChange={(e) => this.setState({ selectedSuppliers: e.value })} multiple={true} />
+                        <ListBox id="donationDriveSuppliers" optionLabel="supplierId" value={this.state.selectedSuppliers} options={this.state.suppliers} onChange={(e) => this.setState({ selectedSuppliers: e.value })} multiple={true} />
                       </td>
                     </tr>
                     <tr>

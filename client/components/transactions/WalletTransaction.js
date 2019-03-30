@@ -53,12 +53,15 @@ export default class WalletTransaction extends Component {
       let url = 'http://localhost:3000/api/private/WalletTransaction/';
       let data = {
         amount: this.state.amount,
-        transferType: this.state.transferType
+        transferType: this.state.transferType,
+        walletId: this.state.walletId,
+        walletBalance: this.state.walletBalance
       }
       httpPOST(url, data)
         .then(response => {
           console.log("Done");
         }).catch(error => {
+          errorMsg = 'An error had occurred while performing the transaction!'
           console.log(error);
         })
     }

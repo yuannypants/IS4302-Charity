@@ -233,22 +233,27 @@ export function validateFundTransferRequest (req, res) {
 }
 
 export function walletTransaction (req, res) {
-  let { value1, value2 } = req.body;
+  let { amount, transferType, walletId, walletBalance } = req.body;
   let url = 'http://localhost:3000/bc/api/WalletTransaction';
-  let firebaseRef = 'somePath/' + 'someId';
+  let firebaseRef = 'Wallet/' + walletId;
   let data = {
     "$class": "com.is4302.charity.WalletTransaction",
-    "amount": 0,
-    "transferType": "TOP_UP",
+    "amount": amount,
+    "transferType": transferType,
   };
 
   // Do something with blockchain
   httpPOST(url, data)
   .then(responseFromComposer => {
+    let balance = walletBalance
+    if(transferType === 'TOP_UP') {
+      balance += amount;
+    } else if(transferType === 'WITHDRAW') {
+      balace -= amount;
+    }
     // Do something with Firebase
     db.ref(firebaseRef).set({
-      key1: "value1",
-      key2: "value2",
+      balance: balance
     }, firebaseError => {
       if (firebaseError)
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

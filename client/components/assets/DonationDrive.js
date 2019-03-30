@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { JsonToTable } from 'react-json-to-table'
 import { httpGET } from '../../utils/httpUtils'
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button'
 
 export default class DonationDrive extends Component {
   constructor(props) {
@@ -12,15 +14,16 @@ export default class DonationDrive extends Component {
     }
   }
 
-  componentWillMount () {
-    let url = 'http://localhost:3000/api/private/DonationDrive';
-    httpGET(url)
-    .then(response => {
-      this.setState({
-        data: response.data
-      });
-    })
-  }
+  // componentWillMount () {
+  //   let url = 'http://localhost:3000/api/private/DonationDrive';
+  //   httpGET(url)
+  //   .then(response => {
+  //     console.log(response.data.data);
+  //     this.setState({
+  //       data: response.data.data
+  //     });
+  //   })
+  // }
 
   render() {
     return (
@@ -32,9 +35,14 @@ export default class DonationDrive extends Component {
         <div className="p-col-12">
           <div className="card card-w-title">
             <h1>Donation Drives</h1>
-            {
-              this.state.data && <JsonToTable json={this.state.data} />
-            }
+            <div className="p-indent p-justify-center">
+              <Card title="Donation Drive Name" subTitle="Charitable Organisation Name" footer={
+                <Button label="Donate" style={{ marginRight: '.25em' }} />
+              }>
+                <b>Beneficiaries: </b> List of Beneficiaries <br/>
+                <b>Suppliers: </b> List of Suppliers
+              </Card>
+            </div>
           </div>
         </div>
       </div>
