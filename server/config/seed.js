@@ -11,9 +11,10 @@ firebase.initializeApp({
 });
 
 const db = firebase.database();
-
 console.log("\x1b[34m%s\x1b[0m","Seeding data into blockchain...");
 console.log("\x1b[35m%s\x1b[0m","  Seeding Donor...");
+
+
 httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Donor","id": "S1234567A","wallet": 'resource:com.is4302.charity.Wallet#S1234567A'}).then(() => console.log('    Seeded Donor: S1234567A'))
 .then(() => httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Donor","id": "S1234567B","wallet": 'resource:com.is4302.charity.Wallet#S1234567B'}).then(() => console.log('    Seeded Donor: S1234567B')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Donor","id": "S1234567C","wallet": 'resource:com.is4302.charity.Wallet#S1234567C'}).then(() => console.log('    Seeded Donor: S1234567C')))
@@ -25,6 +26,15 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/CharitableOrganisation', {"$class": "com.is4302.charity.CharitableOrganisation","uen": "201912345B","beneficiaries": "[\"resource:com.is4302.charity.Beneficiary#201954321B\",\"resource:com.is4302.charity.Beneficiary#201954321C\"]","suppliers": "[\"resource:com.is4302.charity.Supplier#201912345W\",\"resource:com.is4302.charity.Supplier#201912345V\",\"resource:com.is4302.charity.Supplier#201912345Z\"]"}).then(() => console.log('    Seeded CharitableOrganisation: 201912345B')))
 .then(() => httpPOST('http://localhost:3000/bc/api/CharitableOrganisation', {"$class": "com.is4302.charity.CharitableOrganisation","uen": "201912345C","beneficiaries": "[\"resource:com.is4302.charity.Beneficiary#201954321C\",\"resource:com.is4302.charity.Beneficiary#201954321A\"]","suppliers": "[\"resource:com.is4302.charity.Supplier#201912345X\",\"resource:com.is4302.charity.Supplier#201912345W\",\"resource:com.is4302.charity.Supplier#201912345V\"]"}).then(() => console.log('    Seeded CharitableOrganisation: 201912345C')))
 .then(() => httpPOST('http://localhost:3000/bc/api/CharitableOrganisation', {"$class": "com.is4302.charity.CharitableOrganisation","uen": "201912345D","beneficiaries": "[\"resource:com.is4302.charity.Beneficiary#201954321A\",\"resource:com.is4302.charity.Beneficiary#201954321B\",\"resource:com.is4302.charity.Beneficiary#201954321C\"]","suppliers": "[\"resource:com.is4302.charity.Supplier#201912345Y\",\"resource:com.is4302.charity.Supplier#201912345X\",\"resource:com.is4302.charity.Supplier#201912345W\"]"}).then(() => console.log('    Seeded CharitableOrganisation: 201912345D')))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Wallet..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "TestDrive", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: TestDrive')))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding DonationDrive..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "TestDrive","wallet": 'resource:com.is4302.charity.Wallet#TestDrive', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345A', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#TestDrive', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321A\"]"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding ExpenditureReport..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "TestDrive"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
 
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Beneficiary..."))
 .then(() => httpPOST('http://localhost:3000/bc/api/Beneficiary', {"$class": "com.is4302.charity.Beneficiary","id": "201954321A","wallet": 'resource:com.is4302.charity.Wallet#201954321A'}).then(() => console.log('    Seeded Beneficiary: 201954321A')))
@@ -111,4 +121,5 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .catch(err => {
   console.log(JSON.stringify(err.response.data,null,2));
   process.exit();
-});
+})
+
