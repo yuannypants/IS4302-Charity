@@ -4,13 +4,14 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext'
 import { httpPOST } from '../../utils/httpUtils'
 
-export default class CreateFundTransferRequest extends Component {
+export default class MakeDonation extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      something: '',
-      something2: '',
+      amount: 0,
+      donationDriveName: "",
+      data: null,
       error: null
     }
 
@@ -19,18 +20,20 @@ export default class CreateFundTransferRequest extends Component {
 
   onClickSubmit() {
     let data = {
-      something: this.state.something,
-      something2: this.state.something2
+      $class: "com.is4302.charity.MakeDonation",
+      amount: this.state.amount,
+      donationDriveName: this.state.donationDriveName
     }
 
-    httpPOST('http://localhost:3000/private/link', data)
+    httpPOST('http://localhost:3000/api/private/MakeDonation', data)
     .then(response => {
-      // do something
+      console.log("MakeDonation: " + response);
     })
      .catch(error => {
       // catch errors
-      let errorMsg = "";
-      this.setState({error: errorMsg})
+      let errorMsg = error;
+      console.log("MakeDonationError: " + errorMsg);
+      this.setState({error: errorMsg});
     });
   }
 
@@ -45,12 +48,12 @@ export default class CreateFundTransferRequest extends Component {
           <div className="card card-w-title">
             <h1>Make a Donation</h1>
             <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="somethingInput">Something</label>
-              <InputText id="somethingInput" value={this.state.something} onChange={e => this.setState({something: e.target.value})} />
+              <label htmlFor="amount">Donation Amount: </label>
+              <InputText id="amount" value={this.state.amount} onChange={e => this.setState({amount: e.target.value})} />
             </div>
             <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="something2Input">Something 2</label>
-              <InputText id="something2Input" value={this.state.something2} onChange={e => this.setState({something2: e.target.value})} />
+              <label htmlFor="donationDriveName">Donation Drive: </label>
+              <InputText id="donationDriveName" value={this.state.donationDriveName} onChange={e => this.setState({donationDriveName: e.target.value})} />
             </div>
             {
               this.state.error && <div className="p-col-10">

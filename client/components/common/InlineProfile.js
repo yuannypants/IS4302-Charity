@@ -26,6 +26,7 @@ export class InlineProfile extends Component {
     let url = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
     httpGET(url)
     .then(response => {
+      console.log(response);
       this.setState({walletBalance: response.data.balance});
     })
   }
