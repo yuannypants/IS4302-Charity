@@ -35,25 +35,45 @@ export function register(req, res) {
     axios.post(registerIdentityURL, identity, {
       responseType: 'application/octet-stream'
     })
+    .then(cardData => {
+      console.log("\x1b[35m%s\x1b[0m",JSON.stringify(cardData,null,2))
+      // const file = new File([cardData.data], 'card', {type: 'application/octet-stream', lastModified: Date.now()});
+      // const formData = new FormData()
+      // formData.append(nric + '.card', file);
+      // axios.post('http://localhost:3000/bc2/api/wallet/import', cardData.data, {
+      //   "Content-Type": "multipart/form-data",
+      //   "withCredentials": true,
+      //   "X-Access-Token": "95BAaCGPLCmBNGc2ZnttpsBVbqibKvofPk1VJ99B9R9Z3lrF74XZ7Y5hoMVNW1Zu"
+      // })
+      // .then(res => {
+      //   res.json({data: res.data})
+      // })
+      // .catch(err => {
+      //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      //     error: err.data
+      //   })
+      // })
+    })
     .then(responseFromComposer2 => {
-      // then add into Firebase
-      db.ref(firebaseRef).set({
-        firstName: firstName,
-        lastName: lastName,
-        password: password
-      }, firebaseError => {
-        if (firebaseError)
-          res.json({
-            errorSource: "firebase",
-            firebaseError,
-          })
-        else
-          console.log(responseFromComposer2.data);
-          res.json({
-            errorSource: null,
-            data: JSON.stringify(responseFromComposer2)
-          })
-      })
+
+      // // then add into Firebase
+      // db.ref(firebaseRef).set({
+      //   firstName: firstName,
+      //   lastName: lastName,
+      //   password: password
+      // }, firebaseError => {
+      //   if (firebaseError)
+      //     res.json({
+      //       errorSource: "firebase",
+      //       firebaseError,
+      //     })
+      //   else
+      //     console.log(responseFromComposer2.data);
+      //     res.json({
+      //       errorSource: null,
+      //       data: JSON.stringify(responseFromComposer2)
+      //     })
+      // })
     })
     .catch(err => {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
@@ -122,23 +142,3 @@ export function login(req, res) {
     })
   }
 }
-
-
-//.then(cardData => {
-  // const file = new File([cardData.data], 'card', {type: 'application/octet-stream', lastModified: Date.now()});
-  // const formData = new FormData()
-  // formData.append(nric + '.card', file);
-  // axios.post('http://localhost:3000/bc2/api/wallet/import', cardData.data, {
-  //   "Content-Type": "multipart/form-data",
-  //   "withCredentials": true,
-  //   "X-Access-Token": "95BAaCGPLCmBNGc2ZnttpsBVbqibKvofPk1VJ99B9R9Z3lrF74XZ7Y5hoMVNW1Zu"
-  // })
-  // .then(res => {
-  //   res.json({data: res.data})
-  // })
-  // .catch(err => {
-  //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-  //     error: err.data
-  //   })
-  // })
-//})

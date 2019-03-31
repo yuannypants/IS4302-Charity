@@ -62,6 +62,10 @@ class RootContainer extends Component {
 
   createMenu() {
     this.menu = [];
+    let participant = localStorage.getItem("participant");
+
+    // Donors can see all donors
+
 
     this.menu.push({
       label: 'Participants', icon: 'pi pi-fw pi-users',
