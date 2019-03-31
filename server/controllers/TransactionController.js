@@ -22,24 +22,24 @@ export function createDonationDrive(req, res) {
 
   console.log(data);
 
-  httpPOST(url,data)
-      .then(donationDriveResponse => {
-        db.ref('DonationDrive/' + id).set({
-          description: donationDriveDescription,
-        }, firebaseError => {
-          if (firebaseError)
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-              errorSource: "firebase",
-              firebaseError,
-            });
-        })
+  httpPOST(url, data)
+    .then(donationDriveResponse => {
+      db.ref('DonationDrive/' + id).set({
+        description: donationDriveDescription,
+      }, firebaseError => {
+        if (firebaseError)
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            errorSource: "firebase",
+            firebaseError,
+          });
       })
-      .catch(err => {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-          errorSource: "blockchain",
-          // err
-        })
+    })
+    .catch(err => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errorSource: "blockchain",
+        // err
       })
+    })
 
   // Do something with blockchain
   // httpPOST(url, data)
@@ -69,7 +69,7 @@ export function createDonationDrive(req, res) {
   //   })
   // })
 }
-export function createFundTransferRequest (req, res) {
+export function createFundTransferRequest(req, res) {
   let { $class, fundRequestName, fundRequestPurpose, fundRequestAmount, donationDriveName, beneficiaries, suppliers } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateFundTransferRequest';
   let firebaseRef = 'somePath/' + 'someId';
@@ -85,32 +85,34 @@ export function createFundTransferRequest (req, res) {
 
   // Do something with blockchain
   httpPOST(url, data)
-  .then(responseFromComposer => {
-    console.log(responseFromComposer);
+    .then(responseFromComposer => {
+      console.log(responseFromComposer);
 
-    // Do something with Firebase
-    // db.ref(firebaseRef).set({
-    //   key1: "value1",
-    //   key2: "value2",
-    // }, firebaseError => {
-    //   if (firebaseError)
-    //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-    //       errorSource: "firebase",
-    //       firebaseError,
-    //     });
-    //   else
-    //     res.json({
-    //       responseFromComposer,
-    //       key1: "value1",
-    //       key2: "value2",
-    //     });
-    // })
-  })
-   .catch(err => {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      errorSource: "blockchain",
-      // err
+      // Do something with Firebase
+      // db.ref(firebaseRef).set({
+      //   key1: "value1",
+      //   key2: "value2",
+      // }, firebaseError => {
+      //   if (firebaseError)
+      //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      //       errorSource: "firebase",
+      //       firebaseError,
+      //     });
+      //   else
+      //     res.json({
+      //       responseFromComposer,
+      //       key1: "value1",
+      //       key2: "value2",
+      //     });
+      // })
     })
+    .catch(err => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errorSource: "blockchain",
+        // err
+      })
+    }
+    )
 }
 
 export function makeDonation(req, res) {
