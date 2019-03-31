@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { JsonToTable } from 'react-json-to-table'
 import { httpGET } from '../../utils/httpUtils'
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 export default class CharitableOrganisation extends Component {
   constructor(props) {
@@ -12,12 +14,14 @@ export default class CharitableOrganisation extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     let url = 'http://localhost:3000/api/private/CharitableOrganisation';
     httpGET(url)
-    .then(response => {
-      this.setState({data: response.data});
-    })
+      .then(response => {
+        console.log(response)
+        this.setState({ data: response.data });
+      })
+
   }
 
   render() {
@@ -33,6 +37,14 @@ export default class CharitableOrganisation extends Component {
             {
               this.state.data && <JsonToTable json={this.state.data} />
             }
+            {/* {
+              this.state.data && <DataTable value={this.state.data.data}>
+                <Column field="uen" header="UEN" />
+                <Column field="organisationName" header="Name" />
+                <Column field="beneficiaries" header="Beneficiaries" />
+                <Column field="suppliers" header="Suppliers" />
+              </DataTable>
+            } */}
           </div>
         </div>
       </div>

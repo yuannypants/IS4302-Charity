@@ -1,127 +1,135 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import { JsonToTable } from 'react-json-to-table'
-import { httpGET } from '../../utils/httpUtils'
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext'
+import { httpPOST } from '../../utils/httpUtils'
+import {httpGET} from "../../../server/utils/httpUtils";
+import {ListBox} from "primereact/listbox";
 
-export default class DonationDrive extends Component {
+export default class CreateFundTransferRequest extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: null,
+      fundRequestName: '',
+      fundReuqestPurpose: '',
+      fundRequestAmount: 0,
+      donationDriveName: '',
+      beneficiaries: [],
+      suppliers:[],
+      donationDrives: [],
+      selectedDrive: null,
+      error: null
     }
+
+    this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
-  componentWillMount () {
-    let url = 'http://localhost:3000/api/private/DonationDrive';
-    httpGET(url)
+  componentWillMount() {
+    httpGET('http://localhost:3000/api/private/DonationDrive/'+localStorage.getItem("username")) //by right should be charitableorg username
+        .then(response => {
+          let donationDrives = [];
+          for(var drive =0 ; drive< response.data.data.length;drive++)
+          {
+            if("resource:com.is4302.charity.CharitableOrganisation#" + localStorage.getItem("username") === response.data.data[drive].charitableOrganisation) //check if donation drive got the username of the charitable org
+            {
+              donationDrives.push({benesId : response.data.data[drive].id});
+            }
+          }
+
+          this.setState({donationDrives:donationDrives }); //set state
+        })
+        .catch(error => {
+          // catch errors
+          console.log(error)
+          let errorMsg = "";
+          this.setState({error: errorMsg})
+        });
+    httpGET('http://localhost:3000/api/private/CharitableOrganisation/'+localStorage.getItem("username")) //retrieve based on charitable login
+        .then(response => {
+
+
+          let beneficiaries = response.data.data.beneficiaries;
+          let suppliers = response.data.data.suppliers;
+
+          this.setState({beneficiaries: beneficiaries, suppliers: suppliers });
+        })
+        .catch(error => {
+          // catch errors
+          console.log(error)
+          let errorMsg = "";
+          this.setState({error: errorMsg})
+        });
+  }
+
+  onClickSubmit() {
+    let data = {
+      $class: "com.is4302.charity.CreateFundTransferRequest",
+      fundRequestName: this.state.fundRequestName,
+      fundReuqestPurpose: this.state.fundReuqestPurpose,
+      fundRequestAmount: this.state.fundRequestAmount,
+      donationDriveName: this.state.selectedDrive,
+      beneficiaries: this.state.beneficiaries,
+      suppliers: this.state.suppliers
+    }
+
+    httpPOST('http://localhost:3000/api/private/CreateFundTransferRequest', data)
     .then(response => {
-      this.setState({
-        data: response.data
-      });
+      console.log("CreateFundTransferRequest: " + response);
     })
+     .catch(error => {
+      // catch errors
+      let errorMsg = error;
+      this.setState({error: errorMsg})
+    });
   }
 
   render() {
     return (
       <div className="p-grid p-fluid p-justify-center">
         <Helmet>
-          <title>Donation Drives</title>
-          <meta name="description" content="Donation Drives" />
+          <title>Create New Funds Transfer Request</title>
+          <meta name="description" content="Create New Funds Transfer Request" />
         </Helmet>
         <div className="p-col-12">
           <div className="card card-w-title">
-            <h1>Donation Drives</h1>
+            <h1>Create New Funds Transfer Request</h1>
+            <div className="p-col-4" style={{marginTop:'8px'}}>
+              <label htmlFor="fundRequestName">Fund Request Name</label>
+              <InputText id="fundRequestName" value={this.state.fundRequestName} onChange={e => this.setState({fundRequestName: e.target.value})} />
+            </div>
+            <div className="p-col-4" style={{marginTop:'8px'}}>
+              <label htmlFor="fundRequestPurpose">Fund Request Purpose</label>
+              <InputText id="fundRequestPurpose" value={this.state.fundRequestPurpose} onChange={e => this.setState({fundRequestPurpose: e.target.value})} />
+            </div>
+            <div className="p-col-4" style={{marginTop:'8px'}}>
+              <label htmlFor="fundRequestAmount">Fund Request Amount</label>
+              <InputText id="fundRequestAmount" value={this.state.fundRequestAmount} onChange={e => this.setState({fundRequestAmount: e.target.value})} />
+            </div>
+            <div className="content-section implementation">
+              <label>Request from Donation Drive :</label>
+              {/*TODO: find donation drives and change all beneficiaries in this div*/}
+              <ListBox value={this.state.donationDrives} options={this.state.donationDrives} onChange={(e) => this.setState({selectedDrive: e.value})} optionLabel="DonationDriveId"/>
+            </div>
+            <div className="content-section implementation">
+              <label>Select Beneficiaries :</label>
+              <ListBox value={this.state.beneficiaries} options={this.state.beneficiaries} onChange={(e) => this.setState({selectedBeneficiaries: e.value})} multiple={true} optionLabel="BeneficiaryId"/>
+            </div>
+            <div className="content-section implementation">
+              <label>Select Suppliers:</label>
+              <ListBox value={this.state.suppliers} options={this.state.suppliers} onChange={(e) => this.setState({selectedBeneficiaries: e.value})} multiple={true} optionLabel="SupplierId"/>
+            </div>
             {
-              this.state.data && <JsonToTable json={this.state.data} />
+              this.state.error && <div className="p-col-10">
+                <small style={{color:'red'}}>{this.state.error}</small>
+              </div>
             }
+            <div className="p-col-1">
+              <Button label="Submit" icon="pi pi-user-plus" onClick={this.onClickSubmit}/>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 }
-
-// import React, {Component} from 'react';
-// import Helmet from 'react-helmet';
-// import { httpGET } from '../../utils/httpUtils'
-// import {Card} from 'primereact/card';
-// import {Button} from 'primereact/button';
-// import firebase from 'firebase';
-//
-//
-// firebase.initializeApp({
-//   apiKey: "AIzaSyAIn9kS-Kh3PkUfSTQ--tAgTDptcSNbDyM",
-//   authDomain: "charity-e8ccd.firebaseapp.com",
-//   databaseURL: "https://charity-e8ccd.firebaseio.com",
-//   projectId: "charity-e8ccd",
-//   storageBucket: "charity-e8ccd.appspot.com",
-//   messagingSenderId: "212836409307"
-// });
-// const db = firebase.database();
-//
-// export default class DonationDrive extends Component {
-//   constructor(props) {
-//     super(props);
-//
-//     this.state = {
-//       data: null,
-//     }
-//   }
-//
-//   componentDidMount() {
-//     let url = 'http://localhost:3000/api/private/DonationDrive';
-//     httpGET(url)
-//     .then(response => {
-//       console.log(JSON.stringify(response, null, 2));
-//       let dd = response.data;
-//       let dataToRender = [];
-//       for(let donationDrive of dd)
-//       {
-//         db.ref('/DonationDrive/' + donationDrive.id).once('value').then(function(snapshot) {
-//           var donationDriveName = (snapshot.val() && snapshot.val()) || 'Anonymous';
-//           dataToRender.push({
-//             uen: donationDrive.charitableOrganisation.uen,
-//             driveName: donationDrive.donationDriveName,
-//           })
-//         });
-//       }
-//
-//       this.setState({ data: dataToRender });
-//       console.log(this.state.data);
-//     })
-//   }
-//   render() {
-//
-//     const header = (
-//       <img alt="Card" src='showcase/resources/demo/images/usercard.png'/>
-//     );
-//     const footer = (
-//       <span>
-//           <Button label="Save" icon="pi pi-check"/>
-//           <Button label="Cancel" icon="pi pi-times" className="p-button-secondary"/>
-//       </span>
-//     );
-//     return (
-//       <div>
-//         <Helmet>
-//           <title>View Donation Drives</title>
-//           <meta name="description" content="View Donation Drives" />
-//         </Helmet>
-//         <h1>View Donation Drives</h1>
-//         <br/>
-//
-//         <Card title={this.state.data && this.state.data.uen} subTitle="Subtitle" style={{width: '360px'}} className="ui-card-shadow" footer={footer} header={header}>
-//           <div>{this.state.data && this.state.data.driveName}</div>
-//         </Card>
-//         <p>
-//           {
-//             this.state.data && JSON.stringify(this.state.data)
-//           }
-//         </p>
-//
-//
-//       </div>
-//     );
-//   }
-// }

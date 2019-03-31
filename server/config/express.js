@@ -36,6 +36,9 @@ firebase.initializeApp({
   messagingSenderId: "212836409307"
 });
 
+// This fixes the firebase storage issue
+global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+
 export default app;
 
 function normalizePort(value) {

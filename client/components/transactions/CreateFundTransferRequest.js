@@ -29,38 +29,38 @@ export default class CreateFundTransferRequest extends Component {
 
   componentWillMount() {
     httpGET('http://localhost:3000/api/private/DonationDrive/' + localStorage.getItem("username")) //by right should be charitableorg username
-        .then(response => {
-          let donationDrives = [];
-          for (var drive = 0; drive < response.data.data.length; drive++) {
-            if ("resource:com.is4302.charity.CharitableOrganisation#" + localStorage.getItem("username") === response.data.data[drive].charitableOrganisation) //check if donation drive got the username of the charitable org
-            {
-              donationDrives.push({ benesId: response.data.data[drive].id });
-            }
+      .then(response => {
+        let donationDrives = [];
+        for (var drive = 0; drive < response.data.data.length; drive++) {
+          if ("resource:com.is4302.charity.CharitableOrganisation#" + localStorage.getItem("username") === response.data.data[drive].charitableOrganisation) //check if donation drive got the username of the charitable org
+          {
+            donationDrives.push({ benesId: response.data.data[drive].id });
           }
+        }
 
-          this.setState({ donationDrives: donationDrives }); //set state
-        })
-        .catch(error => {
-          // catch errors
-          console.log(error)
-          let errorMsg = "";
-          this.setState({ error: errorMsg })
-        });
+        this.setState({ donationDrives: donationDrives }); //set state
+      })
+      .catch(error => {
+        // catch errors
+        console.log(error)
+        let errorMsg = "";
+        this.setState({ error: errorMsg })
+      });
     httpGET('http://localhost:3000/api/private/CharitableOrganisation/' + localStorage.getItem("username")) //retrieve based on charitable login
-        .then(response => {
+      .then(response => {
 
 
-          let beneficiaries = response.data.data.beneficiaries;
-          let suppliers = response.data.data.suppliers;
+        let beneficiaries = response.data.data.beneficiaries;
+        let suppliers = response.data.data.suppliers;
 
-          this.setState({ beneficiaries: beneficiaries, suppliers: suppliers });
-        })
-        .catch(error => {
-          // catch errors
-          console.log(error)
-          let errorMsg = "";
-          this.setState({ error: errorMsg })
-        });
+        this.setState({ beneficiaries: beneficiaries, suppliers: suppliers });
+      })
+      .catch(error => {
+        // catch errors
+        console.log(error)
+        let errorMsg = "";
+        this.setState({ error: errorMsg })
+      });
   }
 
   onClickSubmit() {
@@ -75,31 +75,31 @@ export default class CreateFundTransferRequest extends Component {
     }
 
     httpPOST('http://localhost:3000/api/private/CreateFundTransferRequest', data)
-        .then(response => {
-          console.log("CreateFundTransferRequest: " + response);
-        })
-        .catch(error => {
-          // catch errors
-          let errorMsg = error;
-          this.setState({ error: errorMsg })
-        });
+      .then(response => {
+        console.log("CreateFundTransferRequest: " + response);
+      })
+      .catch(error => {
+        // catch errors
+        let errorMsg = error;
+        this.setState({ error: errorMsg })
+      });
   }
 
   render() {
     return (
-        <div className="p-grid p-fluid p-justify-center">
-          <Helmet>
-            <title>Create Funds Transfer Request</title>
-            <meta name="description" content="Create New Funds Transfer Request" />
-          </Helmet>
-          <div className="p-col-12">
-            <div className="card card-w-title">
-              <h1>Create Funds Transfer Request</h1>
-              <div className="p-indent p-justify-center">
-                <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
-                <form>
-                  <table cellPadding="10" width="100%">
-                    <tbody>
+      <div className="p-grid p-fluid p-justify-center">
+        <Helmet>
+          <title>Create Funds Transfer Request</title>
+          <meta name="description" content="Create New Funds Transfer Request" />
+        </Helmet>
+        <div className="p-col-12">
+          <div className="card card-w-title">
+            <h1>Create Funds Transfer Request</h1>
+            <div className="p-indent p-justify-center">
+              <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
+              <form>
+                <table cellPadding="10" width="100%">
+                  <tbody>
                     <tr>
                       <td width="25%">
                         <label htmlFor="fundRequestName">Fund Request Name:</label>
@@ -150,16 +150,16 @@ export default class CreateFundTransferRequest extends Component {
                     </tr>
                     <tr>
                       <td colSpan='2'>
-                        <Button label="Submit" icon="pi pi-user-plus" onClick={this.onClickSubmit} />
+                        <Button label="Submit" className="p-button-raised p-button-raised" onClick={this.onClickSubmit} />
                       </td>
                     </tr>
-                    </tbody>
-                  </table>
-                </form>
-              </div >
-            </div>
+                  </tbody>
+                </table>
+              </form>
+            </div >
           </div>
         </div>
+      </div>
     );
   }
 }

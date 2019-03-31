@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext'
-import { httpPOST } from '../../utils/httpUtils'
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
+import { httpGET, httpPOST } from '../../utils/httpUtils';
 
 export default class MakeDonation extends Component {
   constructor(props) {
@@ -10,7 +11,9 @@ export default class MakeDonation extends Component {
 
     this.state = {
       amount: 0,
-      donationDriveName: "",
+      donationDrives: [],
+      selectedDonationDrive: "",
+      walletBalance: 0,
       data: null,
       error: null
     }
@@ -18,23 +21,54 @@ export default class MakeDonation extends Component {
     this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
-  onClickSubmit() {
-    let data = {
-      $class: "com.is4302.charity.MakeDonation",
-      amount: this.state.amount,
-      donationDriveName: this.state.donationDriveName
-    }
+  componentWillMount() {
+    let walletUrl = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
+    httpGET(walletUrl)
+      .then(response => {
+        this.setState({
+          // walletId: response.data.data.id,
+          walletBalance: response.data.data.balance
+        });
+      })
 
-    httpPOST('http://localhost:3000/api/private/MakeDonation', data)
-    .then(response => {
-      console.log("MakeDonation: " + response);
-    })
-     .catch(error => {
-      // catch errors
-      let errorMsg = error;
-      console.log("MakeDonationError: " + errorMsg);
-      this.setState({error: errorMsg});
-    });
+    // let donationDriveUrl = 'http://localhost:3000/api/private/DonationDrive';
+    // httpGET(donationDriveUrl)
+    //   .then(response => {
+    //     this.setState({
+    //       donationDrives: response.data.data
+    //     });
+    //   })
+  }
+
+  onClickSubmit() {
+    let errorMsg = '';
+    if (this.state.amount == 0) {
+      errorMsg = 'Amount cannot be 0!';
+    } else if (this.state.amount < 0) {
+      errorMsg = 'Amount cannot be below 0!'
+    } else if (isNaN(this.state.amount)) {
+      errorMsg = 'Invalid amount entered!'
+    } else if (this.state.amount > this.state.walletBalance) {
+      errorMsg = 'You do not have enough balance to withdraw this amount!';
+    } else {
+      let data = {
+        $class: "com.is4302.charity.MakeDonation",
+        amount: this.state.amount,
+        donationDriveName: this.state.selectedDonationDrive
+      }
+
+      httpPOST('http://localhost:3000/api/private/MakeDonation', data)
+        .then(response => {
+          console.log("MakeDonation: " + response);
+        })
+        .catch(error => {
+          // catch errors
+          errorMsg = error;
+          console.log("MakeDonationError: " + errorMsg);
+        });
+    }
+    this.setState({ error: errorMsg });
+
   }
 
   render() {
@@ -47,22 +81,42 @@ export default class MakeDonation extends Component {
         <div className="p-col-12">
           <div className="card card-w-title">
             <h1>Make a Donation</h1>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="amount">Donation Amount: </label>
-              <InputText id="amount" value={this.state.amount} onChange={e => this.setState({amount: e.target.value})} />
-            </div>
-            <div className="p-col-4" style={{marginTop:'8px'}}>
-              <label htmlFor="donationDriveName">Donation Drive: </label>
-              <InputText id="donationDriveName" value={this.state.donationDriveName} onChange={e => this.setState({donationDriveName: e.target.value})} />
-            </div>
-            {
-              this.state.error && <div className="p-col-10">
-                <small style={{color:'red'}}>{this.state.error}</small>
-              </div>
-            }
-            <div className="p-col-1">
-              <Button label="Submit" icon="pi pi-user-plus" onClick={this.onClickSubmit}/>
-            </div>
+            <div className="p-indent p-justify-center">
+              <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
+              <form>
+                <table cellPadding="10" width="100%">
+                  <tbody>
+                    <tr>
+                      <td width="25%">
+                        <label htmlFor="currentBalance">Current Balance:</label>
+                      </td>
+                      <td width="75%">${parseFloat(this.state.walletBalance).toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label htmlFor="transferType">Donation Drive:</label>
+                      </td>
+                      <td>
+                        <Dropdown value={this.state.selectedDonationDrive} option={this.state.donationDrives} onChange={(e) => this.setState({ selectedDonationDrive: e.value })} placeholder={"Select one..."} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label htmlFor="amount">Amount:</label>
+                      </td>
+                      <td>
+                        <InputText id="amount" value={this.state.amount} onChange={(e) => this.setState({ amount: e.target.value })} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan='2'>
+                        <Button type="button" label="Submit" className="p-button-raised p-button-raised" onClick={this.onClickSubmit} />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div >
           </div>
         </div>
       </div>
