@@ -9,6 +9,7 @@ import NotFound from '../components/404';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import HomePage from '../components/HomePage';
+import Landing from '../components/Landing';
 
 // View Participants
 import Donors from '../components/participants/Donor';
@@ -38,7 +39,7 @@ const history = require("history").createBrowserHistory();
 const RootClientRouter = () => (
   <Router history={history}>
     <Switch>
-      <Route path="/" exact component={HomePage}/>
+      <AuthenticatedRoute exact path="/Landing" component={Landing}/>
       // View Participants
       <AuthenticatedRoute exact path="/Donor" component={Donors}/>
       <AuthenticatedRoute path="/Donor/" component={Donors}/>

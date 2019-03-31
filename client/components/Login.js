@@ -32,7 +32,7 @@ export default class Login extends Component {
       localStorage.setItem('username', response.data.username);
       localStorage.setItem('participant', response.data.participant);
       localStorage.setItem('nickname', response.data.nickname);
-      window.location.href = '/Donor'; // Redirects to main page
+      window.location.href = '/Landing'; // Redirects to landing page
     })
     .catch(error => {
       let errorMsg;

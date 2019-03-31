@@ -148,7 +148,6 @@ class RootContainer extends Component {
   }
 
   render() {
-    let logo = require('../assets/img/logo.png');
     let wrapperClass = classNames('layout-wrapper', 'layout-static', {
       'layout-static-sidebar-inactive': !this.state.menuActive,
       'layout-mobile-sidebar-active': this.state.mobileMenuActive
@@ -169,9 +168,6 @@ class RootContainer extends Component {
           <div ref={el => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
             <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
               <div className="layout-sidebar-scroll-content" >
-                <div className="layout-logo">
-                  <img alt="Logo" src={logo} style={{resizeMode: 'contain', height: '50px'}}/>
-                </div>
                 <InlineProfile />
                 <Menu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
               </div>
