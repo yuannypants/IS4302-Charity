@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Helmet from 'react-helmet'
-import {hot} from 'react-hot-loader';
+import { hot } from 'react-hot-loader';
 import classNames from 'classnames';
 import { ScrollPanel } from 'primereact/scrollpanel'
 import 'primereact/resources/themes/nova-light/theme.css';
@@ -34,7 +34,7 @@ class RootContainer extends Component {
 
   onWrapperClick(event) {
     if (!this.menuClick)
-      this.setState({mobileMenuActive: false});
+      this.setState({ mobileMenuActive: false });
     this.menuClick = false;
   }
 
@@ -42,10 +42,10 @@ class RootContainer extends Component {
     this.menuClick = true;
 
     if (window.innerWidth > 1024) { // If a desktop is detected
-      this.setState({menuActive: !this.state.menuActive});
+      this.setState({ menuActive: !this.state.menuActive });
     } else {
       const mobileMenuActive = this.state.mobileMenuActive;
-      this.setState({mobileMenuActive: !mobileMenuActive});
+      this.setState({ mobileMenuActive: !mobileMenuActive });
     }
     event.preventDefault();
   }
@@ -57,7 +57,7 @@ class RootContainer extends Component {
 
   onMenuItemClick(event) {
     if (!event.item.items)
-      this.setState({mobileMenuActive: false})
+      this.setState({ mobileMenuActive: false })
   }
 
   createMenu() {
@@ -66,19 +66,35 @@ class RootContainer extends Component {
 
     switch (participant) {
       case "Donor":
-
+        this.menu.push({ label: 'View Donation Drives', icon: 'pi pi-fw pi-bars', command: () => { window.location = "DonationDrives" } });
+        this.menu.push({ label: 'View Expenditure Reports', icon: 'pi pi-fw pi-bars', command: () => { window.location = "ExpenditureReport" } });
+        this.menu.push({ label: 'View Charitable Organisations', icon: 'pi pi-fw pi-bars', command: () => { window.location = "CharitableOrganisation" } });
+        this.menu.push({ label: 'View Beneficiaries', icon: 'pi pi-fw pi-bars', command: () => { window.location = "Beneficiaries" } });
+        this.menu.push({ label: 'Top-up/Withdraw Wallet', icon: 'pi pi-fw pi-bars', command: () => { window.location = "WalletTransaction" } });
         break;
       case "CharitableOrganisation":
-
+        this.menu.push({ label: 'Create a Donation Drive', icon: 'pi pi-fw pi-bars', command: () => { window.location = "CreateDonationDrive" } });
+        this.menu.push({ label: 'View Donation Drives', icon: 'pi pi-fw pi-bars', command: () => { window.location = "DonationDrives" } });
+        this.menu.push({ label: 'View Beneficiaries', icon: 'pi pi-fw pi-bars', command: () => { window.location = "Beneficiaries" } });
+        this.menu.push({ label: 'View Suppliers', icon: 'pi pi-fw pi-bars', command: () => { window.location = "Suppliers" } });
+        this.menu.push({ label: 'View Validators', icon: 'pi pi-fw pi-bars', command: () => { window.location = "Validators" } });
+        this.menu.push({ label: 'View Wallets', icon: 'pi pi-fw pi-bars', command: () => { window.location = "Wallet" } });
+        this.menu.push({ label: 'Create Fund Transfer Request', icon: 'pi pi-fw pi-bars', command: () => { window.location = "CreateFundTransferRequest" } });
+        this.menu.push({ label: 'View Expenditure Reports', icon: 'pi pi-fw pi-bars', command: () => { window.location = "ExpenditureReport" } });
         break;
       case "Beneficiary":
-
+        this.menu.push({ label: 'View Donation Drives', icon: 'pi pi-fw pi-bars', command: () => { window.location = "DonationDrives" } });
+        this.menu.push({ label: 'Top-up/Withdraw Wallet', icon: 'pi pi-fw pi-bars', command: () => { window.location = "WalletTransaction" } });
+        this.menu.push({ label: 'Upload Receipt', icon: 'pi pi-fw pi-bars', command: () => { window.location = "UploadReceipt" } });
         break;
       case "Supplier":
-
+        this.menu.push({ label: 'View Donation Drives', icon: 'pi pi-fw pi-bars', command: () => { window.location = "DonationDrives" } });
+        this.menu.push({ label: 'Top-up/Withdraw Wallet', icon: 'pi pi-fw pi-bars', command: () => { window.location = "WalletTransaction" } });
+        this.menu.push({ label: 'Upload Receipt', icon: 'pi pi-fw pi-bars', command: () => { window.location = "UploadReceipt" } });
         break;
       case "Validator":
-
+        this.menu.push({ label: 'View Donation Drives', icon: 'pi pi-fw pi-bars', command: () => { window.location = "DonationDrives" } });
+        this.menu.push({ label: 'View Fund Transfer Requests', icon: 'pi pi-fw pi-bars', command: () => { window.location = "FundTransferRequest" } });
         break;
 
     }
@@ -142,7 +158,7 @@ class RootContainer extends Component {
         localStorage.removeItem("username");
         localStorage.removeItem("participant");
         localStorage.removeItem("nickname");
-        this.setState({menuActive: false, mobileMenuActive: false});
+        this.setState({ menuActive: false, mobileMenuActive: false });
       }
     });
   }
@@ -184,10 +200,10 @@ class RootContainer extends Component {
           <meta name="description" content="IS4302 Charity" />
         </Helmet>
         <div className={wrapperClass} onClick={this.onWrapperClick}>
-          <Topbar onToggleMenu={this.onToggleMenu}/>
+          <Topbar onToggleMenu={this.onToggleMenu} />
 
           <div ref={el => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
-            <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
+            <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{ height: '100%' }}>
               <div className="layout-sidebar-scroll-content" >
                 <InlineProfile />
                 <Menu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
