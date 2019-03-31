@@ -64,60 +64,77 @@ class RootContainer extends Component {
     this.menu = [];
     let participant = localStorage.getItem("participant");
 
-    // Donors can see all donors
+    switch (participant) {
+      case "Donor":
+
+        break;
+      case "CharitableOrganisation":
+
+        break;
+      case "Beneficiary":
+
+        break;
+      case "Supplier":
+
+        break;
+      case "Validator":
+
+        break;
+
+    }
 
 
-    this.menu.push({
-      label: 'Participants', icon: 'pi pi-fw pi-users',
-      items: [
-        {label: 'Donors', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Donor"} },
-        {label: 'Charitable Organisations', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "CharitableOrganisation"} },
-        {label: 'Beneficiaries', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Beneficiary"} },
-        {label: 'Suppliers', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Supplier"} },
-        {label: 'Validators', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Validator"} },
-      ]
-    });
-
-    this.menu.push({
-      label: 'Assets', icon: 'pi pi-fw pi-dollar',
-      items: [
-        {label: 'Wallets', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Wallet"}},
-        {label: 'Donation Drives', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "DonationDrive"}},
-        {label: 'Fund Transfer Requests', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "FundTransferRequest"}},
-        {label: 'Expenditure Reports', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "ExpenditureReport"}},
-        {label: 'Receipts', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "Receipt"}}
-      ]
-    });
-
-    this.menu.push({
-      label: 'Transactions', icon: 'pi pi-fw pi-briefcase',
-      items: [
-        {label: 'Create a Donation Drive', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "CreateDonationDrive"} },
-        {label: 'Create Fund Transfer Request', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "CreateFundTransferRequest"} },
-        {label: 'Make a Donation', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "MakeDonation"} },
-        {label: 'Transfer Funds', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "TransferFund"} },
-        {label: 'Validate Fund Transfer Request', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "ValidateFundTransferRequest"} },
-        {label: 'Upload Receipt', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "UploadReceipt"} },
-        {label: 'Wallet Transaction', icon: 'pi pi-fw pi-bars',
-          command: () => { window.location = "WalletTransaction"} }
-      ]
-    });
+    // this.menu.push({
+    //   label: 'Participants', icon: 'pi pi-fw pi-users',
+    //   items: [
+    //     {label: 'Donors', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Donor"} },
+    //     {label: 'Charitable Organisations', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "CharitableOrganisation"} },
+    //     {label: 'Beneficiaries', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Beneficiary"} },
+    //     {label: 'Suppliers', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Supplier"} },
+    //     {label: 'Validators', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Validator"} },
+    //   ]
+    // });
+    //
+    // this.menu.push({
+    //   label: 'Assets', icon: 'pi pi-fw pi-dollar',
+    //   items: [
+    //     {label: 'Wallets', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Wallet"}},
+    //     {label: 'Donation Drives', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "DonationDrive"}},
+    //     {label: 'Fund Transfer Requests', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "FundTransferRequest"}},
+    //     {label: 'Expenditure Reports', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "ExpenditureReport"}},
+    //     {label: 'Receipts', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "Receipt"}}
+    //   ]
+    // });
+    //
+    // this.menu.push({
+    //   label: 'Transactions', icon: 'pi pi-fw pi-briefcase',
+    //   items: [
+    //     {label: 'Create a Donation Drive', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "CreateDonationDrive"} },
+    //     {label: 'Create Fund Transfer Request', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "CreateFundTransferRequest"} },
+    //     {label: 'Make a Donation', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "MakeDonation"} },
+    //     {label: 'Transfer Funds', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "TransferFund"} },
+    //     {label: 'Validate Fund Transfer Request', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "ValidateFundTransferRequest"} },
+    //     {label: 'Upload Receipt', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "UploadReceipt"} },
+    //     {label: 'Wallet Transaction', icon: 'pi pi-fw pi-bars',
+    //       command: () => { window.location = "WalletTransaction"} }
+    //   ]
+    // });
 
     this.menu.push({
       label: 'Log out', icon: 'pi pi-fw pi-briefcase',
@@ -125,7 +142,7 @@ class RootContainer extends Component {
         localStorage.removeItem("username");
         localStorage.removeItem("participant");
         localStorage.removeItem("nickname");
-        this.setState({menuActive: false,mobileMenuActive: false});
+        this.setState({menuActive: false, mobileMenuActive: false});
       }
     });
   }
