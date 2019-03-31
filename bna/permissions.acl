@@ -15,6 +15,7 @@
 /**
  * Sample access control list.
  */
+/*
 rule Default {
     description: "Allow all participants access to all resources"
     participant: "ANY"
@@ -22,6 +23,429 @@ rule Default {
     resource: "com.is4302.charity.*"
     action: ALLOW
 }
+*/
+rule EveryoneReadDonationDriveWallet {
+  	description: "Allow all participants read access to donation drive wallets"
+  	participant(p): "com.is4302.charity.*"
+  	operation: READ
+    resource(a): "com.is4302.charity.Wallet"
+  	condition: (a.isDonationDrive)
+  	action: ALLOW
+}
+
+rule DonorUpdateDonationDriveWallet {
+  	description: "Allow donor update access to donation drive wallets"
+  	participant(p): "com.is4302.charity.Donor"
+  	operation: UPDATE
+    resource(a): "com.is4302.charity.Wallet"
+  	condition: (a.isDonationDrive)
+  	action: ALLOW
+}
+
+rule DonorReadsOtherDonors {
+ 	description: "Allow all donors read access to other donors including itself"
+  	participant: "com.is4302.charity.Donor"
+  	operation: READ
+    resource: "com.is4302.charity.Donor"
+  	action: ALLOW
+}
+
+rule DonorAccessOwnWallet {
+ 	description: "Allow donor read and update access to own wallet"
+  	participant(p): "com.is4302.charity.Donor"
+  	operation: READ, UPDATE
+    resource(a): "com.is4302.charity.Wallet"
+  	condition: (p.wallet.getIdentifier() == a.getIdentifier())
+  	action: ALLOW
+}
+
+rule DonorCreateWalletTransaction {
+  	description: "Allow donor create wallet transaction transaction"
+  	participant: "com.is4302.charity.Donor"
+  	operation: CREATE
+    resource: "com.is4302.charity.WalletTransaction"
+  	action: ALLOW
+}
+
+rule DonorReadsCharitableOrganisations {
+  	description: "Allow all donors read access to charitable organisations"
+  	participant: "com.is4302.charity.Donor"
+  	operation: READ
+    resource: "com.is4302.charity.CharitableOrganisation"
+  	action: ALLOW
+}
+
+rule DonorReadsDonationDrives {
+  	description: "Allow all donors read access to donation drives"
+  	participant: "com.is4302.charity.Donor"
+  	operation: READ
+    resource: "com.is4302.charity.DonationDrive"
+  	action: ALLOW
+}
+
+rule DonorAllowMakeDonation {
+	description: "Allow all donors to make donation transaction"
+  	participant: "com.is4302.charity.Donor"
+  	operation: CREATE
+    resource: "com.is4302.charity.MakeDonation"
+  	action: ALLOW
+}
+
+rule DonorReadsExpenditureReport {
+  	description: "Allow all donors read access to expenditure report"
+  	participant: "com.is4302.charity.Donor"
+  	operation: READ
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule DonorReadsBeneficiaries {
+  	description: "Allow all donors read access to beneficiaries"
+  	participant: "com.is4302.charity.Donor"
+  	operation: READ
+    resource: "com.is4302.charity.Beneficiary"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsCharitableOrganisation {
+  	description: "Allow all charitable organisations read access to other charitable organisations including itself"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource: "com.is4302.charity.CharitableOrganisation"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsDonors {
+  	description: "Allow all charitable organisations read access to donors"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource: "com.is4302.charity.Donor"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsBeneficiaries {
+  	description: "Allow all charitable organisations read access to beneficiaries"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource: "com.is4302.charity.Beneficiary"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsSuppliers {
+  	description: "Allow all charitable organisations read access to suppliers"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource: "com.is4302.charity.Supplier"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsValidators {
+  	description: "Allow all charitable organisations read access to validators"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource: "com.is4302.charity.Validator"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationAllowCreateDonationDriveTransaction {
+ 	description: "Allow charitable organisation to create donation drive transaction"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE
+    resource: "com.is4302.charity.CreateDonationDrive"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationCreateAndReadsDonationDrive {
+  	description: "Allow all charitable organisations read and create access to donation drive"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE, READ
+    resource: "com.is4302.charity.DonationDrive"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationCreateDonationDriveWallet {
+  	description: "Allow all charitable organisations create access to own donation drive wallets"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE
+    resource: "com.is4302.charity.Wallet"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationCreateDonationDriveExpenditureReport {
+  	description: "Allow all charitable organisations create access to donation drive expenditure report"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationAllowCreateFundTransferRequestTransaction {
+  	description: "Allow charitable organisation to create fund transfer request transaction"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE
+    resource: "com.is4302.charity.CreateFundTransferRequest"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationCreateAndReadsFundTransferRequests {
+  	description: "Allow all charitable organisations create access to fund transfer request"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: CREATE
+    resource: "com.is4302.charity.FundTransferRequest"
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsFundTransferRequests {
+  	description: "Allow charitable organisations read access to own fund transfer request"
+  	participant(p): "com.is4302.charity.CharitableOrganisation"
+  	operation: READ
+    resource(a): "com.is4302.charity.FundTransferRequest"
+  	condition: (p.getIdentifier() == a.donationDrive.charitableOrganisation.getIdentifier())
+  	action: ALLOW
+}
+
+rule CharitableOrganisationReadsExpenditureReport {
+  	description: "Allow all charitable organisations read and update access to expenditure report"
+  	participant: "com.is4302.charity.CharitableOrganisation"
+  	operation: READ, UPDATE
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule BeneficiaryReadsDonors {
+  	description: "Allow all beneficiary read access to donors"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: READ
+    resource: "com.is4302.charity.Donor"
+  	action: ALLOW
+}
+
+rule BeneficiaryReadsCharitableOrganisations {
+  	description: "Allow all beneficiary read access to charitable organisations"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: READ
+    resource: "com.is4302.charity.CharitableOrganisation"
+  	action: ALLOW
+}
+
+rule BeneficiaryReadsExpenditureReport {
+  	description: "Allow all beneficiaries read access to expenditure report"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: READ
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule BeneficiaryReadsOtherBeneficiaries {
+  	description: "Allow all beneficiary read access to other beneficiaries"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: READ
+    resource: "com.is4302.charity.Beneficiary"
+  	action: ALLOW
+}
+
+rule BeneficiaryAccessOwnWallet {
+ 	description: "Allow beneficiary read and update access to own wallet"
+  	participant(p): "com.is4302.charity.Beneficiary"
+  	operation: READ, UPDATE
+    resource(a): "com.is4302.charity.Wallet"
+  	condition: (p.wallet.getIdentifier() == a.getIdentifier())
+  	action: ALLOW
+}
+
+rule BeneficiaryAllowWalletTransaction {
+	description: "Allow beneficiary to create wallet transaction"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: CREATE
+    resource: "com.is4302.charity.WalletTransaction"
+  	action: ALLOW
+}
+
+rule BeneficiaryUploadReceiptTransaction {
+  	description: "Allow beneficiary to create receipt transaction"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: CREATE
+    resource: "com.is4302.charity.UploadReceipt"
+  	action: ALLOW
+}
+
+rule BeneficiaryCreateReceipt {
+  	description: "Allow beneficiary to create receipt"
+  	participant: "com.is4302.charity.Beneficiary"
+  	operation: CREATE
+    resource: "com.is4302.charity.Receipt"
+  	action: ALLOW
+}
+
+rule SupplierReadsDonors {
+  	description: "Allow all supplier read access to donors"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.Donor"
+  	action: ALLOW
+}
+
+rule SupplierReadsOtherBeneficiaries {
+  	description: "Allow all supplier read access to other beneficiaries"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.Beneficiary"
+  	action: ALLOW
+}
+
+rule SupplierReadsCharitableOrganisations {
+  	description: "Allow all supplier read access to charitable organisations"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.CharitableOrganisation"
+  	action: ALLOW
+}
+
+rule SupplierReadsExpenditureReport {
+  	description: "Allow all supplier read access to expenditure report"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule SupplierReadsOtherSuppliers {
+  	description: "Allow all supplier read access to other suppliers"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.Supplier"
+  	action: ALLOW
+}
+
+rule SupplierAccessOwnWallet {
+ 	description: "Allow beneficiary read and update access to own wallet"
+  	participant(p): "com.is4302.charity.Supplier"
+  	operation: READ, UPDATE
+    resource(a): "com.is4302.charity.Wallet"
+  	condition: (p.wallet.getIdentifier() == a.getIdentifier())
+  	action: ALLOW
+}
+
+rule SupplierAllowWalletTransaction {
+	description: "Allow supplier to create wallet transaction"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: CREATE
+    resource: "com.is4302.charity.WalletTransaction"
+  	action: ALLOW
+}
+
+rule SupplierReadsValidators {
+  	description: "Allow all supplier read access to validators"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: READ
+    resource: "com.is4302.charity.Validator"
+  	action: ALLOW
+}
+
+rule SupplierUploadReceiptTransaction {
+  	description: "Allow supplier to create receipt transaction"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: CREATE
+    resource: "com.is4302.charity.UploadReceipt"
+  	action: ALLOW
+}
+
+rule SupplierCreateReceipt {
+  	description: "Allow supplier to create receipt"
+  	participant: "com.is4302.charity.Supplier"
+  	operation: CREATE
+    resource: "com.is4302.charity.Receipt"
+  	action: ALLOW
+}
+
+rule ValidatorReadsDonors {
+  	description: "Allow all validators read access to donors"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.Donor"
+  	action: ALLOW
+}
+
+rule ValidatorReadsOtherBeneficiaries {
+  	description: "Allow all validator read access to other beneficiaries"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.Beneficiary"
+  	action: ALLOW
+}
+
+rule ValidatorReadsCharitableOrganisations {
+  	description: "Allow all validator read access to charitable organisations"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.CharitableOrganisation"
+  	action: ALLOW
+}
+
+rule ValidatorReadsDonationDrive {
+  	description: "Allow all validator read access to donation drives"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.DonationDrive"
+  	action: ALLOW
+}
+
+rule ValidatorReadsUpdateWallet {
+  	description: "Allow all validator read and update access to wallets"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ, UPDATE
+    resource: "com.is4302.charity.Wallet"
+  	action: ALLOW
+}
+
+rule ValidatorReadsExpenditureReport {
+  	description: "Allow all validator read access to expenditure report"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.ExpenditureReport"
+  	action: ALLOW
+}
+
+rule ValidatorCreateValidateFundTransferRequestTransaction {
+  	description: "Allow all validator create access to validate fund transfer request transaction"
+  	participant: "com.is4302.charity.Validator"
+  	operation: CREATE
+    resource: "com.is4302.charity.ValidateFundTransferRequest"
+  	action: ALLOW
+}
+
+rule ValidatorReadsFundTransferRequest {
+  	description: "Allow all validator read access to fund transfer request"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.FundTransferRequest"
+  	action: ALLOW
+}
+
+rule ValidatorReadsSuppliers {
+  	description: "Allow all validators read access to suppliers"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.Supplier"
+  	action: ALLOW
+}
+
+rule ValidatorReadsOtherValidators {
+  	description: "Allow all validators read access to other validators including itself"
+  	participant: "com.is4302.charity.Validator"
+  	operation: READ
+    resource: "com.is4302.charity.Validator"
+  	action: ALLOW
+}
+
+rule ValidatorUpdateFundTransferRequest {
+ 	description: "Allow all validators update access to fund transfer requests"
+  	participant: "com.is4302.charity.Validator"
+  	operation: UPDATE
+    resource: "com.is4302.charity.FundTransferRequest"
+  	action: ALLOW
+} 
+
 
 rule SystemACL {
     description:  "System ACL to permit all access"
