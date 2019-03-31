@@ -27,15 +27,6 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/CharitableOrganisation', {"$class": "com.is4302.charity.CharitableOrganisation","uen": "201912345C","beneficiaries": "[\"resource:com.is4302.charity.Beneficiary#201954321C\",\"resource:com.is4302.charity.Beneficiary#201954321A\"]","suppliers": "[\"resource:com.is4302.charity.Supplier#201912345X\",\"resource:com.is4302.charity.Supplier#201912345W\",\"resource:com.is4302.charity.Supplier#201912345V\"]"}).then(() => console.log('    Seeded CharitableOrganisation: 201912345C')))
 .then(() => httpPOST('http://localhost:3000/bc/api/CharitableOrganisation', {"$class": "com.is4302.charity.CharitableOrganisation","uen": "201912345D","beneficiaries": "[\"resource:com.is4302.charity.Beneficiary#201954321A\",\"resource:com.is4302.charity.Beneficiary#201954321B\",\"resource:com.is4302.charity.Beneficiary#201954321C\"]","suppliers": "[\"resource:com.is4302.charity.Supplier#201912345Y\",\"resource:com.is4302.charity.Supplier#201912345X\",\"resource:com.is4302.charity.Supplier#201912345W\"]"}).then(() => console.log('    Seeded CharitableOrganisation: 201912345D')))
 
-.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Wallet..."))
-.then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "TestDrive", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: TestDrive')))
-
-.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding DonationDrive..."))
-.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "TestDrive", "wallet": 'resource:com.is4302.charity.Wallet#TestDrive', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345A', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#TestDrive', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321A\"]"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
-
-.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding ExpenditureReport..."))
-.then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "TestDrive"}).then(() => console.log('    Seeded Donation Drive: TestDrive')))
-
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Beneficiary..."))
 .then(() => httpPOST('http://localhost:3000/bc/api/Beneficiary', {"$class": "com.is4302.charity.Beneficiary","id": "201954321A","wallet": 'resource:com.is4302.charity.Wallet#201954321A'}).then(() => console.log('    Seeded Beneficiary: 201954321A')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Beneficiary', {"$class": "com.is4302.charity.Beneficiary","id": "201954321B","wallet": 'resource:com.is4302.charity.Wallet#201954321B'}).then(() => console.log('    Seeded Beneficiary: 201954321B')))
@@ -53,6 +44,27 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321B"}).then(() => console.log('    Seeded Validator: S7654321B')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Validator', {"$class": "com.is4302.charity.Validator","id": "S7654321C"}).then(() => console.log('    Seeded Validator: S7654321C')))
 
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding DonationDrive..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "Green Initiative Drive", "wallet": 'resource:com.is4302.charity.Wallet#Green Initiative Drive', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345A', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#Green Initiative Drive', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321A\"]"}).then(() => console.log('    Seeded DonationDrive: Green Initiative Drive')))
+.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "Empower Youths", "wallet": 'resource:com.is4302.charity.Wallet#Empower Youths', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345B', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#Empower Youths', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321B\"]"}).then(() => console.log('    Seeded DonationDrive: Empower Youths')))
+.then(() => httpPOST('http://localhost:3000/bc/api/DonationDrive', {"$class": "com.is4302.charity.DonationDrive","id": "Rise Singapore", "wallet": 'resource:com.is4302.charity.Wallet#Rise Singapore', "charitableOrganisation": 'resource:com.is4302.charity.CharitableOrganisation#201912345C', "expenditureReport":'resource:com.is4302.charity.ExpenditureReport#Rise Singapore', "beneficiaries":"[\"resource:com.is4302.charity.Beneficiary#201954321C\"]"}).then(() => console.log('    Seeded DonationDrive: Drive Singapore')))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding ExpenditureReport..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "Green Initiative Drive","receipts": "[\"resource:com.is4302.charity.Receipt#GID430201A\",\"resource:com.is4302.charity.Receipt#GID430201B\",\"resource:com.is4302.charity.Receipt#GID430201C\"]"}).then(() => console.log('    Seeded Donation Drive: Green Initiative Drive')))
+.then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "Empower Youths","receipts": "[\"resource:com.is4302.charity.Receipt#EY430201A\",\"resource:com.is4302.charity.Receipt#EY430201B\",\"resource:com.is4302.charity.Receipt#EY430201C\"]"}).then(() => console.log('    Seeded Donation Drive: Empower Youths')))
+.then(() => httpPOST('http://localhost:3000/bc/api/ExpenditureReport', {"$class": "com.is4302.charity.ExpenditureReport","id": "Rise Singapore","receipts": "[\"resource:com.is4302.charity.Receipt#RS430201A\",\"resource:com.is4302.charity.Receipt#RS430201B\",\"resource:com.is4302.charity.Receipt#RS430201C\"]"}).then(() => console.log('    Seeded Donation Drive: Rise Singapore')))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Receipt..."))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "GID430201A"}).then(() => console.log('    Seeded Receipt: GID430201A')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "GID430202B"}).then(() => console.log('    Seeded Receipt: GID430202B')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "GID430203C"}).then(() => console.log('    Seeded Receipt: GID430203C')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "EY430201A"}).then(() => console.log('    Seeded Receipt: EY430201A')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "EY430202B"}).then(() => console.log('    Seeded Receipt: EY430202B')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "EY430203C"}).then(() => console.log('    Seeded Receipt: EY430203C')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "RS430201A"}).then(() => console.log('    Seeded Receipt: RS430201A')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "RS430202B"}).then(() => console.log('    Seeded Receipt: RS430202B')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Receipt', {"$class": "com.is4302.charity.Receipt","filePath": "RS430203C"}).then(() => console.log('    Seeded Receipt: RS430203C')))
+
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Wallet..."))
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 12.50,"id": "S1234567A"}).then(() => console.log('    Seeded Wallet: S1234567A')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 12.50,"id": "S1234567B"}).then(() => console.log('    Seeded Wallet: S1234567B')))
@@ -67,6 +79,9 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "201912345X"}).then(() => console.log('    Seeded Wallet: 201912345X')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "201912345W"}).then(() => console.log('    Seeded Wallet: 201912345W')))
 .then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "201912345V"}).then(() => console.log('    Seeded Wallet: 201912345V')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "Green Initiative Drive", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: Green Initiative Drive')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "Empower Youths", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: Empower Youths')))
+.then(() => httpPOST('http://localhost:3000/bc/api/Wallet', {"$class": "com.is4302.charity.Wallet","balance": 0,"id": "Rise Singapore", "isDonationDrive": true}).then(() => console.log('    Seeded Wallet: Rise Singapore')))
 
 .then(() => console.log("\x1b[34m%s\x1b[0m","\nSeeding data into Firebase database server..."))
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Donor..."))
@@ -99,6 +114,27 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => db.ref('Validator/S7654321B').set({name: 'Peter',email: 'Peter@is4302.com',password: 'passwordb',expenditureRecords: []}, firebaseError => {if (firebaseError) console.log('Failed to create Validator: S7654321B'); else console.log('    Seeded Validator: S7654321B')}))
 .then(() => db.ref('Validator/S7654321C').set({name: 'Mary',email: 'mary@is4302.com',password: 'passwordc',expenditureRecords: []}, firebaseError => {if (firebaseError) console.log('Failed to create Validator: S7654321C'); else console.log('    Seeded Validator: S7654321C')}))
 
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding DonationDrive..."))
+.then(() => db.ref('DonationDrive/Green Initiative Drive').set({wallet: 'Green Initiative Drive',charitableOrganisation: '201912345A',expenditureReport: 'Green Initiative Drive',beneficiaries: ['201954321A']}, firebaseError => {if (firebaseError) console.log('Failed to create DonationDrive: Green Initiative Drive'); else console.log('    Seeded DonationDrive: Green Initiative Drive')}))
+.then(() => db.ref('DonationDrive/Empower Youths').set({wallet: 'Empower Youths',charitableOrganisation: '201912345B',expenditureReport: 'Empower Youths',beneficiaries: ['201954321B']}, firebaseError => {if (firebaseError) console.log('Failed to create DonationDrive: Empower Youths'); else console.log('    Seeded DonationDrive: Empower Youths')}))
+.then(() => db.ref('DonationDrive/Rise Singapore').set({wallet: 'Rise Singapore',charitableOrganisation: '201912345C',expenditureReport: 'Rise Singapore',beneficiaries: ['201954321C']}, firebaseError => {if (firebaseError) console.log('Failed to create DonationDrive: Rise Singapore'); else console.log('    Seeded DonationDrive: Rise Singapore')}))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding ExpenditureReport..."))
+.then(() => db.ref('ExpenditureReport/Green Initiative Drive').set({receipts: ['GID430201A','GID430202B','GID430203B']}, firebaseError => {if (firebaseError) console.log('Failed to create ExpenditureReport: Green Initiative Drive'); else console.log('    Seeded ExpenditureReport: Green Initiative Drive')}))
+.then(() => db.ref('ExpenditureReport/Empower Youths').set({receipts: ['EY430201A','EY430202B','EY430203B']}, firebaseError => {if (firebaseError) console.log('Failed to create ExpenditureReport: Empower Youths'); else console.log('    Seeded ExpenditureReport: Empower Youths')}))
+.then(() => db.ref('ExpenditureReport/Rise Singapore').set({receipts: ['RS430201A','RS430202B','RS430203B']}, firebaseError => {if (firebaseError) console.log('Failed to create ExpenditureReport: Rise Singapore'); else console.log('    Seeded ExpenditureReport: Rise Singapore')}))
+
+.then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Receipt..."))
+.then(() => db.ref('Receipt/GID430201A').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: GID430201A'); else console.log('    Seeded Receipt: GID430201A')}))
+.then(() => db.ref('Receipt/GID430202B').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: GID430202B'); else console.log('    Seeded Receipt: GID430202B')}))
+.then(() => db.ref('Receipt/GID430203C').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: GID430203C'); else console.log('    Seeded Receipt: GID430203C')}))
+.then(() => db.ref('Receipt/EY430201A').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: EY430201A'); else console.log('    Seeded Receipt: EY430201A')}))
+.then(() => db.ref('Receipt/EY430202B').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: EY430202B'); else console.log('    Seeded Receipt: EY430202B')}))
+.then(() => db.ref('Receipt/EY430203C').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: EY430203C'); else console.log('    Seeded Receipt: EY430203C')}))
+.then(() => db.ref('Receipt/RS430201A').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: RS430201A'); else console.log('    Seeded Receipt: RS430201A')}))
+.then(() => db.ref('Receipt/RS430202B').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: RS430202B'); else console.log('    Seeded Receipt: RS430202B')}))
+.then(() => db.ref('Receipt/RS430203C').set({}, firebaseError => {if (firebaseError) console.log('Failed to create Receipt: RS430203C'); else console.log('    Seeded Receipt: RS430203C')}))
+
 .then(() => console.log("\x1b[35m%s\x1b[0m","  Seeding Wallet..."))
 .then(() => db.ref('Wallet/S1234567A').set({balance: 12.50}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: S1234567A'); else console.log('    Seeded Wallet: S1234567A')}))
 .then(() => db.ref('Wallet/S1234567B').set({balance: 12.50}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: S1234567B'); else console.log('    Seeded Wallet: S1234567B')}))
@@ -113,6 +149,9 @@ httpPOST('http://localhost:3000/bc/api/Donor', {"$class": "com.is4302.charity.Do
 .then(() => db.ref('Wallet/201912345X').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: 201912345X'); else console.log('    Seeded Wallet: 201912345X')}))
 .then(() => db.ref('Wallet/201912345W').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: 201912345W'); else console.log('    Seeded Wallet: 201912345W')}))
 .then(() => db.ref('Wallet/201912345V').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: 201912345V'); else console.log('    Seeded Wallet: 201912345V')}))
+.then(() => db.ref('Wallet/Green Initiative Drive').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: Green Initiative Drive'); else console.log('    Seeded Wallet: Green Initiative Drive')}))
+.then(() => db.ref('Wallet/Empower Youths').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: Empower Youths'); else console.log('    Seeded Wallet: Empower Youths')}))
+.then(() => db.ref('Wallet/Rise Singapore').set({balance: 0}, firebaseError => {if (firebaseError) console.log('Failed to create Wallet: Rise Singapore'); else console.log('    Seeded Wallet: Rise Singapore')}))
 
 .then(() => {
   console.log("\x1b[32m%s\x1b[0m","\nSeeding complete!");

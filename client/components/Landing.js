@@ -33,22 +33,22 @@ export default class Landing extends Component {
       <div className="p-grid p-justify-center">
         <div className="p-col-3">
           <Card
-            title="Donate"
-            className="ui-card-shadow"
-            header={card1Image}
-            footer={<Button className="p-button-success" label="Donate now!" icon="pi pi-check" onClick={() => window.location = "CreateDonationDrive"}/>}
-          >
-            <div style={{height: '50px'}}>Donate to a donation drive of your choice.</div>
-          </Card>
-        </div>
-        <div className="p-col-3">
-          <Card
             title="Donation Drives"
             className="ui-card-shadow"
             header={card2Image}
             footer={<Button label="View Donation Drives" onClick={() => window.location = "DonationDrive"}/>}
           >
             <div style={{height: '50px'}}>View currently ongoing donation drives</div>
+          </Card>
+        </div>
+        <div className="p-col-3">
+          <Card
+            title="Donate"
+            className="ui-card-shadow"
+            header={card1Image}
+            footer={<Button className="p-button-success" label="Donate now!" icon="pi pi-check" onClick={() => window.location = "DonationDrive"}/>}
+          >
+            <div style={{height: '50px'}}>Donate to a donation drive of your choice.</div>
           </Card>
         </div>
         <div className="p-col-3">
@@ -62,7 +62,6 @@ export default class Landing extends Component {
           </Card>
         </div>
       </div>;
-
     let charitableOrganisationLinks =
       <div className="p-grid p-justify-center">
         <div className="p-col-3">

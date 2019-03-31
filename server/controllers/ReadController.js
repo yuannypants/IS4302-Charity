@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { httpGET, httpPOST } from '../utils/httpUtils';
-import { removeIdentifierInArr } from '../utils/bcUtils';
+import { removeIdentifier, removeIdentifierInArr } from '../utils/bcUtils';
 import * as HttpStatus from 'http-status-codes';
 
 const db = firebase.database();
@@ -156,12 +156,12 @@ export function viewParticipantOrAsset (req, res) {
               fb && data.push({
                 id: bc.id,
                 charitableOrganisation: bc.charitableOrganisation,
-                expenditureReport: removeIdentifierInArr(bc.expenditureReport),
-                beneficiaries: removeIdentifierInArr(bc.beneficiaries),
-                suppliers: removeIdentifierInArr(bc.suppliers),
+                expenditureReport: bc.expenditureReport,
+                beneficiaries: bc.beneficiaries,
+                suppliers: bc.suppliers,
               })
-              additionalData.beneficiariesList.concat(getBeneficiariesList(removeIdentifierInArr(bc.beneficiaries)));
-              additionalData.suppliersList.concat(getSuppliersList(removeIdentifierInArr(bc.suppliers)));
+              // additionalData.beneficiariesList.concat(getBeneficiariesList(removeIdentifierInArr(bc.beneficiaries)));
+              // additionalData.suppliersList.concat(getSuppliersList(removeIdentifierInArr(bc.suppliers)));
             }
 
           } else { // If reading by id, return {}
