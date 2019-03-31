@@ -1,13 +1,15 @@
 import axios from 'axios'
 import firebase from 'firebase';
-import { httpGET, httpPOST } from '../utils/httpUtils'
+import { httpGET, httpPOST } from '../utils/httpUtils';
 import * as HttpStatus from 'http-status-codes';
 
 const db = firebase.database();
 
 export function register(req, res) {
-  // Chain data:    nric
-  // Offchain data: firstName, lastName, password
+  /*
+    Chain data:    nric
+    Offchain data: firstName, lastName, password
+  */
   let { nric, firstName, lastName, password } = req.body;
   let registerDonorURL = 'http://localhost:3000/bc/api/RegisterDonor';
   let registerIdentityURL = 'http://localhost:3000/bc/api/system/identities/issue';
@@ -23,59 +25,47 @@ export function register(req, res) {
       "participant": "com.is4302.charity.Donor#" + nric,
       "userID": nric,
       "options": {
-        "issuer":true
+        // "issuer":true
       }
     };
-
 
   // Add into blockchain first
   httpPOST(registerDonorURL, donor)
   .then(responseFromComposer => {
-    axios.post(registerIdentityURL, identity, {responseType: 'blob'})
-    .then(cardData => {
-      console.log('CARD-DATA', cardData);
-      const file = new File([cardData], nric + '.card', {type: 'application/octet-stream', lastModified: Date.now()});
-
-      const formData = new FormData();
-      formData.append('card', file);
-
-      const headers = new HttpHeaders();
-      headers.set('Content-Type', 'multipart/form-data');
-
-      axios.post('http://localhost:3000/bc2/api/wallet/import', formData, {
-        withCredentials: true,
-        headers
-      })
-      .then(response => {
-        console.log(response);
+    axios.post(registerIdentityURL, identity, {
+      responseType: 'application/octet-stream'
+    })
+    .then(responseFromComposer2 => {
+      // then add into Firebase
+      db.ref(firebaseRef).set({
+        firstName: firstName,
+        lastName: lastName,
+        password: password
+      }, firebaseError => {
+        if (firebaseError)
+          res.json({
+            errorSource: "firebase",
+            firebaseError,
+          })
+        else
+          console.log(responseFromComposer2.data);
+          res.json({
+            errorSource: null,
+            data: JSON.stringify(responseFromComposer2)
+          })
       })
     })
-    .catch(blockchainError => {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({bce: blockchainError})
+    .catch(err => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errorSource: "blockchain2",
+        error: err
+      })
     })
-    // .then(()=>{
-    //   // then add into Firebase
-    //   db.ref(firebaseRef).set({
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     password: password
-    //   }, firebaseError => {
-    //     if (firebaseError)
-    //       res.json({
-    //         errorSource: "firebase",
-    //         firebaseError,
-    //       })
-    //     else
-    //       res.json({
-    //         errorSource: null,
-    //       })
-    //   })
-    // })
   })
-  .catch(blockchainError => {
+  .catch(err => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorSource: "blockchain",
-      //blockchainError,
+      //err,
     })
   })
 }
@@ -132,3 +122,23 @@ export function login(req, res) {
     })
   }
 }
+
+
+//.then(cardData => {
+  // const file = new File([cardData.data], 'card', {type: 'application/octet-stream', lastModified: Date.now()});
+  // const formData = new FormData()
+  // formData.append(nric + '.card', file);
+  // axios.post('http://localhost:3000/bc2/api/wallet/import', cardData.data, {
+  //   "Content-Type": "multipart/form-data",
+  //   "withCredentials": true,
+  //   "X-Access-Token": "95BAaCGPLCmBNGc2ZnttpsBVbqibKvofPk1VJ99B9R9Z3lrF74XZ7Y5hoMVNW1Zu"
+  // })
+  // .then(res => {
+  //   res.json({data: res.data})
+  // })
+  // .catch(err => {
+  //   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+  //     error: err.data
+  //   })
+  // })
+//})

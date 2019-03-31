@@ -19,13 +19,12 @@ if (process.env.MODE === 'development') {
 
 // Reverse proxy for blockchain
 app.use('/bc', proxy(() => {
-  console.log('Single-user blockchain API call received.');
+  console.log('Blockchain (single) API call received.');
   return 'localhost:3001/';
-}))
-// Reverse proxy for blockchain
+}))// Reverse proxy for blockchain
 app.use('/bc2', proxy(() => {
-  console.log('Multi-user blockchain API call received.');
-  return 'localhost:3001/';
+  console.log('Blockchain (multi user) API call received.');
+  return 'localhost:3002/';
 }))
 
 // Router for server API

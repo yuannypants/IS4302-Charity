@@ -5,8 +5,7 @@ export function httpPOST(url, data) {
   .post(url, data, {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      //'Authorization': 'Bearer' + ' ' + TOKEN
+      'Accept': 'application/json'
     }
   });
 }
@@ -16,8 +15,7 @@ export function httpGET(url) {
   .get(url, {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      //'Authorization': 'Bearer' + ' ' + TOKEN
+      'Accept': 'application/json'
     }
   });
 }
@@ -27,8 +25,7 @@ export function httpUPDATE(url, data) {
   .put(url, data, {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      //'Authorization': 'Bearer' + ' ' + TOKEN
+      'Accept': 'application/json'
     }
   });
 }
@@ -38,8 +35,7 @@ export function httpDELETE(url) {
   .delete(url, {
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      //'Authorization': 'Bearer' + ' ' + TOKEN
+      'Accept': 'application/json'
     }
   });
 }
