@@ -46,15 +46,7 @@ export class Topbar extends Component {
               <span>Welcome, {this.state.nickname}! <a onClick={this.onClickLogout}>Log out.</a></span>
             )
           }
-          {
-            this.state.nickname && (
-              <button className="p-link">
-                <span className="layout-topbar-item-text">Sign Out</span>
-                <span className="layout-topbar-icon pi pi-sign-out"/>
-              </button>
-            )
-          }
-          <button className="p-link">
+          <button className="p-link" onClick={() => window.location = "Landing"}>
             <span className="layout-topbar-item-text">Home</span>
             <span className="layout-topbar-icon pi pi-home"/>
           </button>

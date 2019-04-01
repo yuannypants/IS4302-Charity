@@ -66,32 +66,32 @@ export default class Landing extends Component {
       <div className="p-grid p-justify-center">
         <div className="p-col-3">
           <Card
-            title="Donate"
+            title="Create Drive"
             className="ui-card-shadow"
             header={card1Image}
-            footer={<Button className="p-button-success" label="Donate now!" icon="pi pi-check" onClick={() => window.location = "CreateDonationDrive"}/>}
+            footer={<Button label="Create" onClick={() => window.location = "CreateDonationDrive"}/>}
           >
-            <div style={{height: '50px'}}>Donate to a donation drive of your choice.</div>
+            <div style={{height: '50px'}}>Create a new donation drive under your charitable organisation.</div>
           </Card>
         </div>
         <div className="p-col-3">
           <Card
-            title="Donation Drives"
+            title="View Drives"
             className="ui-card-shadow"
             header={card2Image}
-            footer={<Button label="View Donation Drives" onClick={() => window.location = "DonationDrive"}/>}
+            footer={<Button label="View" onClick={() => window.location = "DonationDrive"}/>}
           >
-            <div style={{height: '50px'}}>View currently ongoing donation drives</div>
+            <div style={{height: '50px'}}>View the donation drives that your organisation has created.</div>
           </Card>
         </div>
         <div className="p-col-3">
           <Card
-            title="Top Up"
+            title="Fund Transfer"
             className="ui-card-shadow"
             header={card3Image}
-            footer={<Button label="Top Up" onClick={() => window.location = "WalletTransaction"}/>}
+            footer={<Button label="Create Request" onClick={() => window.location = "CreateFundTransferRequest"}/>}
           >
-            <div style={{height: '50px'}}>Add funds to your wallet</div>
+            <div style={{height: '50px'}}>Create a fund transfer request from a donation drive to your beneficiaries/suppliers.</div>
           </Card>
         </div>
       </div>;
@@ -146,7 +146,7 @@ export default class Landing extends Component {
             <h2 style={{textAlign: 'center', marginBottom:'20px'}}>What would you like to do today?</h2>
             <div className="p-grid p-justify-center">
               {
-                this.state.participant === "Donor" ? donorLinks :
+                this.state.participant === "Donor" ? charitableOrganisationLinks :
                 this.state.participant === "CharitableOrganisation" ? charitableOrganisationLinks :
                 this.state.participant === "Beneficiary" ? beneficiaryLinks :
                 this.state.participant === "Supplier" ? supplierLinks :

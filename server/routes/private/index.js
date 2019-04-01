@@ -4,16 +4,22 @@ import * as TransactionController from '../../controllers/TransactionController'
 
 let router = express.Router();
 
-// Viewing of participants and assets
+// Viewing of participants, assets and transactionHistory
 router.route('/:type(Donor|CharitableOrganisation|Beneficiary|Supplier|Validator|Wallet|DonationDrive|FundTransferRequest|ExpenditureReport|Receipt)/:id').get((req, res) => {
   ReadController.viewParticipantOrAsset(req, res)});
 router.route('/:type(Donor|CharitableOrganisation|Beneficiary|Supplier|Validator|Wallet|DonationDrive|FundTransferRequest|ExpenditureReport|Receipt)').get((req, res) => {
   ReadController.viewParticipantOrAsset(req, res)});
 
 
+router.route('/:type(CreateDonationDrive|CreateFundTransferRequest|MakeDonation|TransferFund|UploadReceipt|ValidateFundTransferRequest|WalletTransaction)/:id').get((req, res) => {
+  ReadController.viewTransactionHistory(req, res)});
+router.route('/:type(CreateDonationDrive|CreateFundTransferRequest|MakeDonation|TransferFund|UploadReceipt|ValidateFundTransferRequest|WalletTransaction)').get((req, res) => {
+  ReadController.viewTransactionHistory(req, res)});
+
+
 // Transactions-related
-router.route('/CreateDonationDrive/:id').get((req, res) => {
-  TransactionController.createDonationDrive(req, res)});
+// router.route('/CreateDonationDrive/:id').get((req, res) => {
+//   TransactionController.createDonationDrive(req, res)});
 router.route('/CreateDonationDrive').post((req, res) => {
   TransactionController.createDonationDrive(req, res)});
 

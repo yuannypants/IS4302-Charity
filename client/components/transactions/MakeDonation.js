@@ -11,7 +11,11 @@ export default class MakeDonation extends Component {
 
     this.state = {
       amount: 0,
-      donationDrives: [],
+      ownDonationDrives: [
+        {label: 'Empower Youths', value: 'Empower Youths'},
+        {label: 'Green Initiative Drive', value: 'Green Initiative Drive'},
+        {label: 'Rise Singapore', value: 'Rise Singapore'},
+      ],
       selectedDonationDrive: "",
       walletBalance: 0,
       data: null,
@@ -57,15 +61,19 @@ export default class MakeDonation extends Component {
         donationDriveName: this.state.selectedDonationDrive
       }
 
-      httpPOST('http://localhost:3000/api/private/MakeDonation', data)
-        .then(response => {
-          console.log("MakeDonation: " + response);
-        })
-        .catch(error => {
-          // catch errors
-          errorMsg = error;
-          console.log("MakeDonationError: " + errorMsg);
-        });
+      // httpPOST('http://localhost:3000/api/private/MakeDonation', data)
+      // .then(response => {
+      //   console.log("MakeDonation: " + response);
+      // })
+      // .catch(error => {
+      //   // catch errors
+      //   errorMsg = error;
+      //   console.log("MakeDonationError: " + errorMsg);
+      // });
+      if (confirm('Confirm to make a donation of $' + this.state.amount + ' to Green Initiative Drive?')) {
+        alert('Thank you for your donation!')
+        window.location = "Landing"
+      }
     }
     this.setState({ error: errorMsg });
 
@@ -97,7 +105,7 @@ export default class MakeDonation extends Component {
                         <label htmlFor="transferType">Donation Drive:</label>
                       </td>
                       <td>
-                        <Dropdown value={this.state.selectedDonationDrive} option={this.state.donationDrives} onChange={(e) => this.setState({ selectedDonationDrive: e.value })} placeholder={"Select one..."} />
+                        <Dropdown value={this.state.selectedDonationDrive} options={this.state.ownDonationDrives} onChange={(e) => this.setState({ selectedDonationDrive: e.value })} placeholder={"Select one..."} />
                       </td>
                     </tr>
                     <tr>

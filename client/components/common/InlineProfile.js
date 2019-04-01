@@ -7,8 +7,7 @@ export class InlineProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
-      walletBalance: 0
+      expanded: false
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -19,8 +18,10 @@ export class InlineProfile extends Component {
   }
 
   componentWillMount() {
-    if (localStorage.getItem("username") !== null ) {
-      let url = 'http://localhost:3000/api/private/Wallet/' + localStorage.getItem("username");
+    let username = localStorage.getItem("username");
+    let participant = localStorage.getItem("participant");
+    if (username !== null && (participant === "Donor" || participant === "Beneficiary" || participant === "Supplier")) {
+      let url = 'http://localhost:3000/api/private/Wallet/' + username;
       httpGET(url).then(response => {
         this.setState({ walletBalance: response.data.data.balance });
       })
@@ -39,10 +40,10 @@ export class InlineProfile extends Component {
         </div>
         <button className="p-link profile-link" onClick = { () => window.location.href = '/Wallet' }>
           <span className="username">{nickname} ({participant})</span>
-          
+
           {/*<i className="pi pi-fw pi-cog"/>*/}
         </button><br/>
-        <span className="balance"  >Wallet Balance: ${this.state.walletBalance && this.state.walletBalance.toFixed(2)}</span>
+        { this.state.walletBalance && <span className="balance">Wallet Balance: ${ this.state.walletBalance.toFixed(2)}</span> }
         {/*<ul className={classNames({'profile-expanded': this.state.expanded})}>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-user"/><span>Account</span></button></li>*/}
           {/*<li><button className="p-link"><i className="pi pi-fw pi-inbox"/><span>Notifications</span></button></li>*/}

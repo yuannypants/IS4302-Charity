@@ -12,7 +12,7 @@
     "stopFabric": "export FABRIC_VERSION=hlfv11 && ./fabric/stopFabric.sh",
     "teardownFabric": "export FABRIC_VERSION=hlfv11 && ./fabric/stopFabric.sh && ./fabric/teardownFabric.sh",
     "resetDocker": "docker kill $(docker ps -q); docker rm $(docker ps -aq); docker rmi $(docker images dev-* -q)",
-    "initBlockchain": "npm run setupFabric && npm run generateBNA && npm run installBNA && npm run generateBNC",
+    "initBlockchain": "npm run setupFabric && npm run generateBNA && npm run installBNA && npm run generateBNCc",
     "generateBNA": "rm ./bna/is4302-charity.bna; composer archive create --sourceType dir --sourceName ./bna -a ./bna/is4302-charity.bna",
     "installBNA": "composer network install --card PeerAdmin@hlfv1 --archiveFile ./bna/is4302-charity.bna",
     "deleteOldBNC": "composer card delete --card admin@is4302-charity",

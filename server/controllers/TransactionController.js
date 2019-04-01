@@ -7,25 +7,47 @@ const db = firebase.database();
 const storage = firebase.storage();
 
 export function createDonationDrive(req, res) {
-  let { $class, id, beneficiaries, suppliers, donationDriveDescription } = req.body;
+  let { name, purpose, beneficiariesId, suppliersId } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateDonationDrive';
-  // let url2 = 'http://localhost:3000/bc/api/CharitableOrganisation';
+  let beneficiaries = "[", suppliers = "[";
+
+  for (let beneficiary of beneficiariesId)
+    beneficiaries += "\"resource:com.is4302.charity.Beneficiary#" + beneficiary + "\",";
+  for (let supplier of suppliersId)
+    suppliers += "\"resource:com.is4302.charity.Beneficiary#" + supplier + "\",";
+
   let data = {
-    "$class": $class,
-    "donationDriveId": id,
-    "walletId": id,
-    "expenditureReportId": id,
-    "beneficiaries": beneficiaries,
-    "suppliers": suppliers,
+    "$class": "com.is4302.charity.CreateDonationDrive",
+    "walletId": name,
+    "donationDriveId": name,
+    "expenditureReportId": name,
   };
 
+  if (beneficiaries !== "[")
+    data.beneficiaries = beneficiaries.substring(0, beneficiaries.length-1) + "]";
 
-  console.log(data);
+  if (suppliers !== "[")
+    data.suppliers = suppliers.substring(0, beneficiaries.length-1) + "]";
 
   httpPOST(url, data)
-    .then(donationDriveResponse => {
-      db.ref('DonationDrive/' + id).set({
-        description: donationDriveDescription,
+  .then(responseFromComposer => {
+    db.ref('DonationDrive/' + name).set({
+      description: purpose,
+      wallet: name,
+      expenditureReport: name,
+      beneficiaries: beneficiariesId,
+      suppliers: suppliersId
+
+    }, firebaseError => {
+      if (firebaseError)
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          errorSource: "firebase",
+          firebaseError,
+        });
+    })
+    .then(() => {
+      db.ref('Wallet/' + name).set({
+        balance: 0
       }, firebaseError => {
         if (firebaseError)
           res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
@@ -33,13 +55,27 @@ export function createDonationDrive(req, res) {
             firebaseError,
           });
       })
-    })
-    .catch(err => {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errorSource: "blockchain",
-        // err
+      .then(() => {
+        db.ref('ExpenditureReport/' + name).set({
+          receipts: []
+        }, firebaseError => {
+          if (firebaseError)
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+              errorSource: "firebase",
+              firebaseError,
+            });
+          else
+            res.json(responseFromComposer.data);
+        })
       })
     })
+  })
+  .catch(err => {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errorSource: "blockchain",
+      // err
+    })
+  })
 
   // Do something with blockchain
   // httpPOST(url, data)
@@ -69,47 +105,56 @@ export function createDonationDrive(req, res) {
   //   })
   // })
 }
+
 export function createFundTransferRequest(req, res) {
-  let { $class, fundRequestName, fundRequestPurpose, fundRequestAmount, donationDriveName, beneficiaries, suppliers } = req.body;
+  let { name, purpose, amount, donationDriveId, beneficiariesId, suppliersId } = req.body;
   let url = 'http://localhost:3000/bc/api/CreateFundTransferRequest';
-  let firebaseRef = 'somePath/' + 'someId';
+  let firebaseRef = 'FundTransferRequest/' + name;
+
+  let beneficiaries = "[", suppliers = "[";
+  for (let beneficiary of beneficiariesId)
+    beneficiaries += "\"resource:com.is4302.charity.Beneficiary#" + beneficiary + "\",";
+  for (let supplier of suppliersId)
+    suppliers += "\"resource:com.is4302.charity.Beneficiary#" + supplier + "\",";
+
   let data = {
-    "$class": $class,
-    "fundTransferRequestId": fundRequestName,
-    "purpose": fundRequestPurpose,
-    "amount": fundRequestAmount,
-    "donationDrive": donationDriveName,
-    "beneficiaries": beneficiaries,
-    "suppliers": suppliers
+    "$class": "com.is4302.charity.CreateFundTransferRequest",
+    "fundTransferRequestId": name,
+    "purpose": purpose,
+    "amount": amount,
+    "donationDrive": "com.is4302.charity.DonationDrive#" + donationDriveId,
   };
+
+  if (beneficiaries !== "[")
+    data.beneficiaries = beneficiaries.substring(0, beneficiaries.length-1) + "]";
+
+  if (suppliers !== "[")
+    data.suppliers = suppliers.substring(0, beneficiaries.length-1) + "]";
 
   // Do something with blockchain
   httpPOST(url, data)
     .then(responseFromComposer => {
-      console.log(responseFromComposer);
-
-      // Do something with Firebase
-      // db.ref(firebaseRef).set({
-      //   key1: "value1",
-      //   key2: "value2",
-      // }, firebaseError => {
-      //   if (firebaseError)
-      //     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      //       errorSource: "firebase",
-      //       firebaseError,
-      //     });
-      //   else
-      //     res.json({
-      //       responseFromComposer,
-      //       key1: "value1",
-      //       key2: "value2",
-      //     });
-      // })
+      db.ref(firebaseRef).set({
+        purpose: purpose,
+        amount: amount,
+        approvalStatus: "NOT_APPROVED",
+        donationDrive: donationDriveId,
+        validators: [],
+        beneficiaries: beneficiariesId,
+        suppliers: suppliersId
+      }, firebaseError => {
+        if (firebaseError)
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+            errorSource: "firebase",
+            firebaseError,
+          });
+        else
+          res.json(responseFromComposer.data);
+      })
     })
     .catch(err => {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        errorSource: "blockchain",
-        // err
+        errorSource: "blockchain"
       })
     }
     )
@@ -238,7 +283,7 @@ export function walletTransaction(req, res) {
       if (transferType === 'TOP_UP') {
         balance += amount;
       } else if (transferType === 'WITHDRAW') {
-        balace -= amount;
+        balance -= amount;
       }
       // Do something with Firebase
       db.ref(firebaseRef).set({

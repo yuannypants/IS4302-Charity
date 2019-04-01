@@ -11,7 +11,7 @@ export default class UploadReceipt extends Component {
 
     this.state = {
       donationDrive: '',
-      donationDrives: '',
+      ownDonationDrives: '',
       receipt: '',
       error: null
     }
@@ -65,7 +65,7 @@ export default class UploadReceipt extends Component {
                     <tr>
                       <td width="25%"><b>Select Donation Drive: </b></td>
                       <td width="75%">
-                        <Dropdown value = {this.state.donationDrive} option = {this.state.donationDrives} onChange = {(e) => {this.setState({donationDrive: e.value})}} placeholder = 'Select a Donation Drive...' />
+                        <Dropdown value = {this.state.donationDrive} option = {this.state.ownDonationDrives} onChange = {(e) => {this.setState({donationDrive: e.value})}} placeholder = 'Select a Donation Drive...' />
                       </td>
                     </tr>
                     <tr>

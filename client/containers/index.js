@@ -62,7 +62,7 @@ class RootContainer extends Component {
 
   createMenu() {
     this.menu = [];
-    let participant = localStorage.getItem("participant");
+    let participant = "CharitableOrganisation";
 
     switch (participant) {
       case "Donor":

@@ -34,6 +34,15 @@ import UploadReceipt from '../components/transactions/UploadReceipt';
 import ValidateFundTransferRequest from '../components/transactions/ValidateFundTransferRequest';
 import WalletTransaction from '../components/transactions/WalletTransaction';
 
+// View Transactions
+import ViewCreateDonationDrive from '../components/transactionsView/ViewCreateDonationDrive';
+import ViewCreateFundTransferRequest from '../components/transactionsView/ViewCreateFundTransferRequest';
+import ViewMakeDonation from '../components/transactionsView/ViewMakeDonation';
+import ViewTransferFund from '../components/transactionsView/ViewTransferFund';
+import ViewUploadReceipt from '../components/transactionsView/ViewUploadReceipt';
+import ViewValidateFundTransferRequest from '../components/transactionsView/ViewValidateFundTransferRequest';
+import ViewWalletTransaction from '../components/transactionsView/ViewWalletTransaction';
+
 const history = require("history").createBrowserHistory();
 
 const RootClientRouter = () => (
@@ -79,6 +88,22 @@ const RootClientRouter = () => (
       <AuthenticatedRoute path="/ValidateFundTransferRequest/" component={ValidateFundTransferRequest}/>
       <AuthenticatedRoute exact path="/WalletTransaction" component={WalletTransaction}/>
       <AuthenticatedRoute path="/WalletTransaction/" component={WalletTransaction}/>
+
+      // View Transactions
+      <AuthenticatedRoute exact path="/ViewCreateDonationDrive" component={ViewCreateDonationDrive}/>
+      <AuthenticatedRoute path="/ViewCreateDonationDrive/" component={ViewCreateDonationDrive}/>
+      <AuthenticatedRoute exact path="/ViewCreateFundTransferRequest" component={ViewCreateFundTransferRequest}/>
+      <AuthenticatedRoute path="/ViewCreateFundTransferRequest/" component={ViewCreateFundTransferRequest}/>
+      <AuthenticatedRoute exact path="/ViewMakeDonation" component={ViewMakeDonation}/>
+      <AuthenticatedRoute path="/ViewMakeDonation/" component={ViewMakeDonation}/>
+      <AuthenticatedRoute exact path="/ViewTransferFund" component={ViewTransferFund}/>
+      <AuthenticatedRoute path="/ViewTransferFund/" component={ViewTransferFund}/>
+      <AuthenticatedRoute exact path="/ViewUploadReceipt" component={ViewUploadReceipt}/>
+      <AuthenticatedRoute path="/ViewUploadReceipt/" component={ViewUploadReceipt}/>
+      <AuthenticatedRoute exact path="/ViewValidateFundTransferRequest" component={ViewValidateFundTransferRequest}/>
+      <AuthenticatedRoute path="/ViewValidateFundTransferRequest/" component={ViewValidateFundTransferRequest}/>
+      <AuthenticatedRoute exact path="/ViewWalletTransaction" component={ViewWalletTransaction}/>
+      <AuthenticatedRoute path="/ViewWalletTransaction/" component={ViewWalletTransaction}/>
 
       // Public
       <Route exact path="/Login" component={Login}/>
