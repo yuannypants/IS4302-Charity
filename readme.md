@@ -26,9 +26,13 @@
     ```
     npm run initBlockchain
     ```
-    If the command does not work, you may have to remove existing Docker volumes that contain previous versions of Hyperledger Fabric. Run the following commands:
+    If the command fails, you may have to remove existing Docker volumes that contain previous versions of Hyperledger Fabric. Run the following commands:
     ```
     npm run resetDocker
+    ```
+    If the command fails and give an error saying that the admin@is4302-charity business card isn't found, you may have to import it
+    ```
+    npm run importBNC
     ```
 8.  Start the server and Composer REST servers using two separate command line windows.
     ```
