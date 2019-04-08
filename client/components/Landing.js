@@ -146,7 +146,7 @@ export default class Landing extends Component {
             <h2 style={{textAlign: 'center', marginBottom:'20px'}}>What would you like to do today?</h2>
             <div className="p-grid p-justify-center">
               {
-                this.state.participant === "Donor" ? charitableOrganisationLinks :
+                this.state.participant === "Donor" ? donorLinks :
                 this.state.participant === "CharitableOrganisation" ? charitableOrganisationLinks :
                 this.state.participant === "Beneficiary" ? beneficiaryLinks :
                 this.state.participant === "Supplier" ? supplierLinks :

@@ -54,9 +54,10 @@ export default class CreateDonationDrive extends Component {
         let errorMsg = "Error retrieving list of beneficiaries and suppliers belonging to your charitable organisation.";
         this.setState({ error: errorMsg })
       });
-    } else {
-      window.location = "Landing"
     }
+    // else {
+    //   window.location = "Landing"
+    // }
   }
 
   onClickSubmit() {

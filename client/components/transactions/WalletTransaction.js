@@ -14,10 +14,13 @@ export default class WalletTransaction extends Component {
     this.state = {
       walletId: null,
       walletBalance: 0,
-      transferType: 'TOP_UP',
+      transferType: 'WITHDRAW',
       amount: 0,
       error: null,
     }
+
+    this.getTransferType = this.getTransferType.bind(this);
+    this.onClickSubmit = this.onClickSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -41,7 +44,7 @@ export default class WalletTransaction extends Component {
 
   onClickSubmit() {
     let errorMsg = '';
-    if (this.state.amount == 0) {
+    if (this.state.amount === 0) {
       errorMsg = 'Amount cannot be 0!';
     } else if (this.state.amount < 0) {
       errorMsg = 'Amount cannot be below 0!'
@@ -58,12 +61,12 @@ export default class WalletTransaction extends Component {
         walletBalance: this.state.walletBalance
       }
       httpPOST(url, data)
-        .then(response => {
-          console.log("Done");
-        }).catch(error => {
-          errorMsg = 'An error had occurred while performing the transaction!'
-          console.log(error);
-        })
+      .then(response => {
+        console.log("Done");
+      }).catch(error => {
+        errorMsg = 'An error had occurred while performing the transaction!'
+        console.log(error);
+      })
     }
     this.setState({ error: errorMsg });
   }
@@ -81,40 +84,43 @@ export default class WalletTransaction extends Component {
             <h1>Wallet Transaction</h1>
             <div className="p-indent p-justify-center">
               <p style={{ color: "red", textAlign: "center" }} >{this.state.error}</p>
-              <form>
-                <table cellPadding="10" width="100%">
-                  <tbody>
-                    <tr>
-                      <td width="25%">
-                        <label htmlFor="currentBalance">Current Balance:</label>
-                      </td>
-                      <td width="75%">${parseFloat(this.state.walletBalance).toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label htmlFor="transferType">Transfer Type:</label>
-                      </td>
-                      <td>
-                        <RadioButton value="TOP_UP" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'TOP_UP'} /> Top-up &nbsp;
-                        <RadioButton value="WITHDRAW" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'WITHDRAW'} /> Withdraw
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label htmlFor="amount">Amount to {this.getTransferType()}:</label>
-                      </td>
-                      <td>
-                        <InputText id="amount" value={this.state.amount} onChange={(e) => this.setState({ amount: e.target.value })} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan='2'>
-                        <Button type="button" label="Submit" className="p-button-raised p-button-raised" onClick={this.onClickSubmit} />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
+              <table cellPadding="10" width="100%">
+                <tbody>
+                  <tr>
+                    <td width="25%">
+                      <label htmlFor="currentBalance">Current Balance:</label>
+                    </td>
+                    <td width="75%">${parseFloat(this.state.walletBalance).toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="transferType">Transfer Type:</label>
+                    </td>
+                    <td>
+                      { localStorage.getItem("participant") === "Donor" && (
+                          <span>
+                            <RadioButton value="TOP_UP" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'TOP_UP'}/> Top up &nbsp;
+                          </span>
+                        )
+                      }
+                      <RadioButton value="WITHDRAW" name="transferType" onChange={(e) => this.setState({ transferType: e.value })} checked={this.state.transferType === 'WITHDRAW'} /> Withdraw
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="amount">Amount to {this.getTransferType()}:</label>
+                    </td>
+                    <td>
+                      <InputText id="amount" value={this.state.amount} onChange={(e) => this.setState({ amount: e.target.value })} />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan='2'>
+                      <Button type="button" label="Submit" className="p-button-raised p-button-raised" onClick={this.onClickSubmit} />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div >
           </div>
         </div>

@@ -7,7 +7,13 @@ const db = firebase.database();
 
 export function viewParticipantOrAsset (req, res) {
   let { type, id } = req.params;
-  let url = 'http://localhost:3000/bc/api/' + type;
+  let url, searchTerm = req.originalUrl.split(type)[1];
+
+  if (searchTerm === "" || searchTerm === "/" + id) {
+    url = 'http://localhost:3000/bc/api/' + type;
+  } else {
+    url = 'http://localhost:3000/bc/api/' + type + searchTerm;
+  }
   let firebaseRef = type;
   if (id) {
     url += '/' + id;
